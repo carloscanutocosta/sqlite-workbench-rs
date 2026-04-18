@@ -49,7 +49,6 @@ pub struct StatsState {
     pub loading: bool,
     pub cancelled: bool,
     pub current_col: String,
-    pub progress: f32,
     pub result: Option<Vec<(String, ColumnStats)>>,
     pub total_rows: i64,
     pub error: Option<String>,
@@ -98,9 +97,6 @@ pub struct App {
     pub(super) sql_rows: Vec<Vec<String>>,
     pub(super) sql_error: Option<String>,
     pub(super) sql_autocomplete: Vec<String>,
-    pub(super) sql_ac_prefix: String,
-    pub(super) sql_ac_show: bool,
-    pub(super) sql_ac_selected: usize,
     pub(super) history: VecDeque<String>,
     pub(super) favorites: Vec<String>,
 
@@ -118,7 +114,6 @@ pub struct App {
 
     // Status
     pub(super) toast: Option<(String, f64)>,
-    pub(super) read_only: bool,
     pub(super) show_about: bool,
 
     // Pending async data load
@@ -139,5 +134,4 @@ pub struct InputDialog {
 pub enum InputAction {
     RenameTable(String),
     ImportCsvName(String),
-    NewTableName,
 }

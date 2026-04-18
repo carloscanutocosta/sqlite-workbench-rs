@@ -1,0 +1,75 @@
+name: Release Build
+
+on:
+  push:
+    branches: [ "main" ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    name: Build Release (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            artifact_name: sqlite-workbench-windows.exe
+            bin_name: sqlite-workbench-rs.exe
+          - os: ubuntu-latest
+            artifact_name: sqlite-workbench-linux
+            bin_name: sqlite-workbench-rs
+          - os: macos-latest
+            artifact_name: sqlite-workbench-macos
+            bin_name: sqlite-workbench-rs
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Linux dependencies
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk-3-dev libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev libxkbcommon-dev libssl-dev
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+
+      - name: Rust Cache
+        uses: swatinem/rust-cache@v2
+        with:
+          key: ${{ matrix.os }}-cargo
+
+      - name: Build Release
+        run: cargo build --release
+
+      - name: Prepare Artifact
+        shell: pwsh
+        run: |
+          $src = "target/release/${{ matrix.bin_name }}"
+          $dest = "dist/${{ matrix.artifact_name }}"
+          if (!(Test-Path "dist")) { New-Item -ItemType Directory -Path "dist" }
+          Copy-Item $src -Destination $dest
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: dist/${{ matrix.artifact_name }}
+
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: dist/${{ matrix.artifact_name }}
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
