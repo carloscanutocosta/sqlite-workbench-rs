@@ -101,6 +101,16 @@ pub struct T {
     pub menu_file: &'static str,
     pub menu_table: &'static str,
     pub menu_settings: &'static str,
+    pub menu_about: &'static str,
+    pub about_title: &'static str,
+    pub about_description: &'static str,
+    pub about_org: &'static str,
+    pub about_author: &'static str,
+    pub about_version: &'static str,
+    pub about_license: &'static str,
+    pub about_copyright: &'static str,
+    pub about_repository: &'static str,
+    pub about_close: &'static str,
 }
 
 pub const PT: T = T {
@@ -199,6 +209,16 @@ pub const PT: T = T {
     menu_file: "Ficheiro",
     menu_table: "Tabela",
     menu_settings: "Definições",
+    menu_about: "Acerca de",
+    about_title: "Acerca de SQLite Workbench",
+    about_description: "Ferramenta de ambiente de trabalho para explorar e editar bases de dados SQLite.",
+    about_org: "Organização",
+    about_author: "Autor",
+    about_version: "Versão",
+    about_license: "Licença",
+    about_copyright: "© 2025 NORMAXIS. Todos os direitos reservados.",
+    about_repository: "Repositório",
+    about_close: "Fechar",
 };
 
 pub const EN: T = T {
@@ -297,6 +317,16 @@ pub const EN: T = T {
     menu_file: "File",
     menu_table: "Table",
     menu_settings: "Settings",
+    menu_about: "About",
+    about_title: "About SQLite Workbench",
+    about_description: "Desktop tool for exploring and editing SQLite databases.",
+    about_org: "Organisation",
+    about_author: "Author",
+    about_version: "Version",
+    about_license: "Licence",
+    about_copyright: "© 2025 NORMAXIS. All rights reserved.",
+    about_repository: "Repository",
+    about_close: "Close",
 };
 
 pub fn get(lang: &Language) -> &'static T {

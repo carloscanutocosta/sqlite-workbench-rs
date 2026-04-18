@@ -276,4 +276,87 @@ impl App {
             }
         }
     }
+
+    pub(super) fn show_about_window(&mut self, ctx: &egui::Context) {
+        if !self.show_about { return; }
+
+        let t = self.t();
+        let mut open = self.show_about;
+
+        egui::Window::new(t.about_title)
+            .collapsible(false)
+            .resizable(false)
+            .fixed_size(Vec2::new(360.0, 0.0))
+            .anchor(egui::Align2::CENTER_CENTER, [0.0, 0.0])
+            .open(&mut open)
+            .show(ctx, |ui| {
+                ui.add_space(8.0);
+
+                ui.vertical_centered(|ui| {
+                    ui.label(
+                        RichText::new("SQLite Workbench")
+                            .size(22.0)
+                            .strong()
+                            .color(Color32::from_rgb(100, 160, 230)),
+                    );
+                    ui.label(
+                        RichText::new(t.about_description)
+                            .size(12.0)
+                            .color(Color32::GRAY),
+                    );
+                });
+
+                ui.add_space(12.0);
+                ui.separator();
+                ui.add_space(8.0);
+
+                egui::Grid::new("about_grid")
+                    .num_columns(2)
+                    .spacing([12.0, 6.0])
+                    .show(ui, |ui| {
+                        ui.label(RichText::new(t.about_org).strong());
+                        ui.label("NORMAXIS");
+                        ui.end_row();
+
+                        ui.label(RichText::new(t.about_author).strong());
+                        ui.label("Carlos Canuto Costa");
+                        ui.end_row();
+
+                        ui.label(RichText::new(t.about_version).strong());
+                        ui.label(env!("CARGO_PKG_VERSION"));
+                        ui.end_row();
+
+                        ui.label(RichText::new(t.about_license).strong());
+                        ui.label("EUPL v1.2");
+                        ui.end_row();
+
+                        ui.label(RichText::new(t.about_repository).strong());
+                        ui.hyperlink_to(
+                            "github.com/carloscanutocosta/sqlite-workbench-rs",
+                            "https://github.com/carloscanutocosta/sqlite-workbench-rs",
+                        );
+                        ui.end_row();
+                    });
+
+                ui.add_space(8.0);
+                ui.separator();
+                ui.add_space(4.0);
+
+                ui.vertical_centered(|ui| {
+                    ui.label(
+                        RichText::new(t.about_copyright)
+                            .size(11.0)
+                            .color(Color32::GRAY),
+                    );
+                    ui.add_space(8.0);
+                    if ui.button(t.about_close).clicked() {
+                        self.show_about = false;
+                    }
+                });
+
+                ui.add_space(4.0);
+            });
+
+        self.show_about = open;
+    }
 }

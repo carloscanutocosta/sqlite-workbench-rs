@@ -132,6 +132,7 @@ pub struct App {
     // Toast / status messages
     pub(super) toast: Option<(String, f64)>,
     pub(super) read_only: bool,
+    pub(super) show_about: bool,
 
     // Pending async data load
     pub(super) pending_load:
@@ -237,6 +238,7 @@ impl App {
             sidebar_ctx_table: None,
             toast: None,
             read_only: false,
+            show_about: false,
             pending_load: None,
             pending_page: 1,
             pending_total: None,
@@ -575,6 +577,9 @@ impl eframe::App for App {
                         }
                     }
                 });
+                if ui.button(self.t().menu_about).clicked() {
+                    self.show_about = true;
+                }
             });
         });
 
@@ -606,5 +611,6 @@ impl eframe::App for App {
 
         self.show_dialogs(ctx);
         self.show_context_menus(ctx);
+        self.show_about_window(ctx);
     }
 }
