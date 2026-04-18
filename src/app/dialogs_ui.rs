@@ -189,7 +189,6 @@ impl App {
                     }
                 }
             }
-            InputAction::NewTableName => {}
         }
     }
 

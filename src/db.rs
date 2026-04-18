@@ -18,6 +18,7 @@ pub struct ForeignKeyDef {
 }
 
 #[derive(Debug, Clone)]
+#[allow(dead_code)]
 pub struct ForeignKey {
     pub from_col: String,
     pub ref_table: String,

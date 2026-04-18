@@ -5,6 +5,7 @@ pub enum Language {
     En,
 }
 
+#[allow(dead_code)]
 pub struct T {
     pub app_title: &'static str,
     pub db_explorer: &'static str,
