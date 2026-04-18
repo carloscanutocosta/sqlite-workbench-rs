@@ -1,7 +1,7 @@
 use egui::{Color32, RichText, Vec2};
 
-use crate::db::{ColumnDef, ForeignKeyDef};
 use super::{App, InputAction, InputDialog};
+use crate::db::{ColumnDef, ForeignKeyDef};
 
 impl App {
     pub(super) fn show_dialogs(&mut self, ctx: &egui::Context) {
@@ -18,21 +18,26 @@ impl App {
                 .open(&mut open)
                 .show(ctx, |ui| {
                     ui.label(&label);
-                    let resp = ui.text_edit_singleline(&mut self.input_dialog.as_mut().unwrap().value);
+                    let resp =
+                        ui.text_edit_singleline(&mut self.input_dialog.as_mut().unwrap().value);
                     if resp.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter)) {
                         let value = self.input_dialog.take().unwrap().value;
                         self.execute_input_action(action, value);
                         return;
                     }
                     ui.horizontal(|ui| {
-                        if ui.button(self.t().cancel).clicked() { self.input_dialog = None; }
+                        if ui.button(self.t().cancel).clicked() {
+                            self.input_dialog = None;
+                        }
                         if ui.button(self.t().save).clicked() {
                             let value = self.input_dialog.take().unwrap().value;
                             self.execute_input_action(action, value);
                         }
                     });
                 });
-            if !open { self.input_dialog = None; }
+            if !open {
+                self.input_dialog = None;
+            }
         }
 
         // ── Create table dialog ───────────────────────────────────────────────
@@ -67,17 +72,27 @@ impl App {
                         }
                     }
                 }
-                if !open { self.create_table_dialog = None; }
+                if !open {
+                    self.create_table_dialog = None;
+                }
             }
         }
 
         // ── Edit / Insert record dialog ───────────────────────────────────────
         {
             let t = self.t();
-            let is_insert = self.edit_dialog.as_ref().map(|d| d.rowid.is_none()).unwrap_or(false);
-            let title = if is_insert { t.new_record } else { t.edit_values };
+            let is_insert = self
+                .edit_dialog
+                .as_ref()
+                .map(|d| d.rowid.is_none())
+                .unwrap_or(false);
+            let title = if is_insert {
+                t.new_record
+            } else {
+                t.edit_values
+            };
             let mut open = true;
-            let mut do_save: Option<Vec<(String, String)>> = None;
+            let mut action: Option<Result<Vec<(String, String)>, ()>> = None;
 
             if self.edit_dialog.is_some() {
                 egui::Window::new(title)
@@ -86,28 +101,38 @@ impl App {
                     .open(&mut open)
                     .show(ctx, |ui| {
                         if let Some(dlg) = self.edit_dialog.as_mut() {
-                            do_save = dlg.show(ui, t);
+                            action = dlg.show(ui, t);
                         }
                     });
 
-                if let Some(pairs) = do_save {
-                    let table = self.selected_table.clone().unwrap_or_default();
-                    let rowid = self.edit_dialog.as_ref().and_then(|d| d.rowid);
-                    let result = if let Some(rid) = rowid {
-                        self.db.as_ref().unwrap().update_record(&table, rid, &pairs)
-                    } else {
-                        self.db.as_ref().unwrap().insert_record(&table, &pairs)
-                    };
-                    match result {
-                        Ok(()) => {
-                            self.toast(if rowid.is_some() { self.t().record_updated } else { self.t().record_inserted });
-                            self.edit_dialog = None;
-                            self.start_data_load(self.current_page, rowid.is_none());
+                match action {
+                    Some(Ok(pairs)) => {
+                        let table = self.selected_table.clone().unwrap_or_default();
+                        let rowid = self.edit_dialog.as_ref().and_then(|d| d.rowid);
+                        let result = if let Some(rid) = rowid {
+                            self.db.as_ref().unwrap().update_record(&table, rid, &pairs)
+                        } else {
+                            self.db.as_ref().unwrap().insert_record(&table, &pairs)
+                        };
+                        match result {
+                            Ok(()) => {
+                                self.toast(if rowid.is_some() {
+                                    self.t().record_updated
+                                } else {
+                                    self.t().record_inserted
+                                });
+                                self.edit_dialog = None;
+                                self.start_data_load(self.current_page, rowid.is_none());
+                            }
+                            Err(e) => self.toast(format!("{}: {e}", self.t().error)),
                         }
-                        Err(e) => self.toast(format!("{}: {e}", self.t().error)),
                     }
+                    Some(Err(())) => self.edit_dialog = None,
+                    None => {}
                 }
-                if !open { self.edit_dialog = None; }
+                if !open {
+                    self.edit_dialog = None;
+                }
             }
         }
 
@@ -124,7 +149,9 @@ impl App {
                             erd.show(ui);
                         }
                     });
-                if !open { self.erd_window = None; }
+                if !open {
+                    self.erd_window = None;
+                }
             }
         }
     }
@@ -183,7 +210,10 @@ impl App {
                             });
                             self.sidebar_ctx_table = None;
                         }
-                        if ui.button(RichText::new(self.t().delete).color(Color32::RED)).clicked() {
+                        if ui
+                            .button(RichText::new(self.t().delete).color(Color32::RED))
+                            .clicked()
+                        {
                             if let Some(db) = &self.db {
                                 match db.drop_table(table) {
                                     Ok(()) => {
@@ -205,7 +235,9 @@ impl App {
 
             if ctx.input(|i| i.pointer.any_click()) {
                 let released_outside = !ctx.is_pointer_over_area();
-                if released_outside { self.sidebar_ctx_table = None; }
+                if released_outside {
+                    self.sidebar_ctx_table = None;
+                }
             }
         }
 
@@ -220,7 +252,10 @@ impl App {
                             self.open_edit_dialog(rowid, vals.clone());
                             self.tree_ctx_row = None;
                         }
-                        if ui.button(RichText::new(self.t().delete).color(Color32::RED)).clicked() {
+                        if ui
+                            .button(RichText::new(self.t().delete).color(Color32::RED))
+                            .clicked()
+                        {
                             if let Some(db) = &self.db {
                                 let table = self.selected_table.clone().unwrap_or_default();
                                 match db.delete_record(&table, rowid) {
