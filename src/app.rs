@@ -109,8 +109,8 @@ pub struct App {
     input_dialog: Option<InputDialog>,
 
     // Context menus
-    tree_ctx_row: Option<(i64, Vec<String>)>,
-    sidebar_ctx_table: Option<String>,
+    tree_ctx_row: Option<(i64, Vec<String>, egui::Pos2)>,
+    sidebar_ctx_table: Option<(String, egui::Pos2)>,
 
     // Toast / status messages
     toast: Option<(String, f64)>,
@@ -588,7 +588,7 @@ impl App {
                 .collect();
 
             let mut to_load: Option<String> = None;
-            let mut ctx_table: Option<String> = None;
+            let mut ctx_table: Option<(String, egui::Pos2)> = None;
 
             for table in &tables {
                 let selected = self.selected_table.as_deref() == Some(table.as_str());
@@ -597,7 +597,8 @@ impl App {
                     to_load = Some(table.clone());
                 }
                 if resp.secondary_clicked() {
-                    ctx_table = Some(table.clone());
+                    let pos = resp.interact_pointer_pos().unwrap_or(resp.rect.center());
+                    ctx_table = Some((table.clone(), pos));
                 }
             }
 
@@ -766,7 +767,7 @@ impl App {
         let sort_col_clone = self.sort_col.clone();
         let sort_asc = self.sort_asc;
         let mut new_sort: Option<(String, bool)> = None;
-        let mut ctx_row: Option<(i64, Vec<String>)> = None;
+        let mut ctx_row: Option<(i64, Vec<String>, egui::Pos2)> = None;
 
         table
             .header(24.0, |mut header: egui_extras::TableRow| {
@@ -794,8 +795,10 @@ impl App {
                     let rowid: i64 = data.first().and_then(|v| v.parse().ok()).unwrap_or(-1);
 
                     row.col(|ui: &mut egui::Ui| {
-                        if ui.small_button("✏").clicked() {
-                            ctx_row = Some((rowid, data.clone()));
+                        let resp = ui.small_button("✏");
+                        if resp.clicked() {
+                            let pos = resp.interact_pointer_pos().unwrap_or(resp.rect.center());
+                            ctx_row = Some((rowid, data.clone(), pos));
                         }
                     });
 
@@ -812,8 +815,8 @@ impl App {
             self.start_data_load(1, true);
         }
 
-        if let Some((rowid, vals)) = ctx_row {
-            self.tree_ctx_row = Some((rowid, vals));
+        if let Some((rowid, vals, pos)) = ctx_row {
+            self.tree_ctx_row = Some((rowid, vals, pos));
         }
     }
 
@@ -1173,10 +1176,10 @@ impl App {
 
     fn show_context_menus(&mut self, ctx: &egui::Context) {
         // Sidebar context menu (right-click on table in list)
-        if let Some(ref table) = self.sidebar_ctx_table.clone() {
+        if let Some((ref table, pos)) = self.sidebar_ctx_table.clone() {
             egui::Area::new(egui::Id::new("sidebar_ctx"))
                 .order(egui::Order::Tooltip)
-                .fixed_pos(ctx.input(|i| i.pointer.latest_pos().unwrap_or_default()))
+                .fixed_pos(pos)
                 .show(ctx, |ui| {
                     egui::Frame::popup(ui.style()).show(ui, |ui| {
                         if ui.button(self.t().rename).clicked() {
@@ -1215,10 +1218,10 @@ impl App {
         }
 
         // Data table context menu (edit / delete row)
-        if let Some((rowid, ref vals)) = self.tree_ctx_row.clone() {
+        if let Some((rowid, ref vals, pos)) = self.tree_ctx_row.clone() {
             egui::Area::new(egui::Id::new("tree_ctx"))
                 .order(egui::Order::Tooltip)
-                .fixed_pos(ctx.input(|i| i.pointer.latest_pos().unwrap_or_default()))
+                .fixed_pos(pos)
                 .show(ctx, |ui| {
                     egui::Frame::popup(ui.style()).show(ui, |ui| {
                         if ui.button(self.t().edit).clicked() {
