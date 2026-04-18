@@ -7,7 +7,11 @@ impl App {
     pub(super) fn show_main(&mut self, ui: &mut Ui, ctx: &egui::Context) {
         if self.db.is_none() {
             ui.centered_and_justified(|ui| {
-                ui.label(RichText::new(self.t().no_file).size(18.0).color(Color32::GRAY));
+                ui.label(
+                    RichText::new(self.t().no_file)
+                        .size(18.0)
+                        .color(Color32::GRAY),
+                );
             });
             return;
         }
@@ -20,10 +24,22 @@ impl App {
                 ui.label(RichText::new(format!("{} {table_name}", self.t().table_label)).strong());
             }
             ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
-                if ui.add_enabled(self.selected_table.is_some(), egui::Button::new(self.t().new_record)).clicked() {
+                if ui
+                    .add_enabled(
+                        self.selected_table.is_some(),
+                        egui::Button::new(self.t().new_record),
+                    )
+                    .clicked()
+                {
                     self.open_insert_dialog();
                 }
-                if ui.add_enabled(self.selected_table.is_some(), egui::Button::new(self.t().export)).clicked() {
+                if ui
+                    .add_enabled(
+                        self.selected_table.is_some(),
+                        egui::Button::new(self.t().export),
+                    )
+                    .clicked()
+                {
                     self.export_data();
                 }
             });
@@ -33,16 +49,28 @@ impl App {
 
         ui.horizontal(|ui| {
             let t = self.t();
-            if ui.selectable_label(self.active_tab == ActiveTab::Data, t.tab_data).clicked() {
+            if ui
+                .selectable_label(self.active_tab == ActiveTab::Data, t.tab_data)
+                .clicked()
+            {
                 self.active_tab = ActiveTab::Data;
             }
-            if ui.selectable_label(self.active_tab == ActiveTab::Schema, t.tab_schema).clicked() {
+            if ui
+                .selectable_label(self.active_tab == ActiveTab::Schema, t.tab_schema)
+                .clicked()
+            {
                 self.active_tab = ActiveTab::Schema;
             }
-            if ui.selectable_label(self.active_tab == ActiveTab::Stats, t.tab_stats).clicked() {
+            if ui
+                .selectable_label(self.active_tab == ActiveTab::Stats, t.tab_stats)
+                .clicked()
+            {
                 self.active_tab = ActiveTab::Stats;
             }
-            if ui.selectable_label(self.active_tab == ActiveTab::Sql, t.tab_sql).clicked() {
+            if ui
+                .selectable_label(self.active_tab == ActiveTab::Sql, t.tab_sql)
+                .clicked()
+            {
                 self.active_tab = ActiveTab::Sql;
             }
         });
@@ -65,7 +93,11 @@ impl App {
             let opts: Vec<String> = self.filter_col_options.clone();
 
             egui::ComboBox::from_id_salt("filter_col")
-                .selected_text(if self.filter.column.is_empty() { &all_col } else { &self.filter.column })
+                .selected_text(if self.filter.column.is_empty() {
+                    &all_col
+                } else {
+                    &self.filter.column
+                })
                 .width(120.0)
                 .show_ui(ui, |ui| {
                     for opt in &opts {
@@ -86,13 +118,15 @@ impl App {
             let resp = ui.add(
                 egui::TextEdit::singleline(&mut self.filter.value)
                     .hint_text(t.search_data_placeholder)
-                    .desired_width(200.0)
+                    .desired_width(200.0),
             );
             if resp.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter)) {
                 self.start_data_load(1, true);
             }
 
-            if ui.button(t.search_btn).clicked() { self.start_data_load(1, true); }
+            if ui.button(t.search_btn).clicked() {
+                self.start_data_load(1, true);
+            }
             if ui.button(t.clear_btn).clicked() {
                 self.filter.value.clear();
                 self.filter.column.clear();
@@ -103,7 +137,11 @@ impl App {
 
         if self.loading_data {
             ui.add_space(4.0);
-            ui.add(egui::ProgressBar::new(f32::NAN).animate(true).desired_width(f32::INFINITY));
+            ui.add(
+                egui::ProgressBar::new(f32::NAN)
+                    .animate(true)
+                    .desired_width(f32::INFINITY),
+            );
         }
 
         ui.add_space(4.0);
@@ -118,16 +156,31 @@ impl App {
         ui.separator();
         ui.horizontal(|ui| {
             let t = self.t();
-            if ui.add_enabled(self.current_page > 1, egui::Button::new(t.prev)).clicked() {
+            if ui
+                .add_enabled(self.current_page > 1, egui::Button::new(t.prev))
+                .clicked()
+            {
                 let p = self.current_page - 1;
                 self.start_data_load(p, false);
             }
 
-            ui.label(format!("{} {} {} {}  ({} {})",
-                t.tab_data, self.current_page, t.page_of, self.total_pages,
-                self.total_rows, t.lines));
+            ui.label(format!(
+                "{} {} {} {}  ({} {})",
+                t.tab_data,
+                self.current_page,
+                t.page_of,
+                self.total_pages,
+                self.total_rows,
+                t.lines
+            ));
 
-            if ui.add_enabled(self.current_page < self.total_pages, egui::Button::new(t.next)).clicked() {
+            if ui
+                .add_enabled(
+                    self.current_page < self.total_pages,
+                    egui::Button::new(t.next),
+                )
+                .clicked()
+            {
                 let p = self.current_page + 1;
                 self.start_data_load(p, false);
             }
@@ -161,12 +214,18 @@ impl App {
 
         table
             .header(24.0, |mut header: egui_extras::TableRow| {
-                header.col(|ui: &mut egui::Ui| { ui.label(""); });
+                header.col(|ui: &mut egui::Ui| {
+                    ui.label("");
+                });
                 for col in &display_cols {
                     let col_str = col.to_string();
                     let sorted = sort_col_clone.as_deref() == Some(col.as_str());
                     let label = if sorted {
-                        if sort_asc { format!("{col_str} ▲") } else { format!("{col_str} ▼") }
+                        if sort_asc {
+                            format!("{col_str} ▲")
+                        } else {
+                            format!("{col_str} ▼")
+                        }
                     } else {
                         col_str.clone()
                     };
@@ -194,7 +253,9 @@ impl App {
 
                     for i in 1..col_count {
                         let val = data.get(i).map(String::as_str).unwrap_or("").to_string();
-                        row.col(|ui: &mut egui::Ui| { ui.label(val.as_str()); });
+                        row.col(|ui: &mut egui::Ui| {
+                            ui.label(val.as_str());
+                        });
                     }
                 });
             });
@@ -218,7 +279,7 @@ impl App {
                 egui::TextEdit::multiline(&mut self.schema_text.clone())
                     .font(FontId::monospace(13.0))
                     .desired_width(f32::INFINITY)
-                    .interactive(false)
+                    .interactive(false),
             );
         });
     }
@@ -229,9 +290,15 @@ impl App {
         if self.stats.loading {
             ui.horizontal(|ui| {
                 ui.spinner();
-                ui.label(format!("{} {}", self.t().calculating_stats, self.stats.current_col));
+                ui.label(format!(
+                    "{} {}",
+                    self.t().calculating_stats,
+                    self.stats.current_col
+                ));
             });
-            if ui.button(self.t().cancel).clicked() { self.stats.cancelled = true; }
+            if ui.button(self.t().cancel).clicked() {
+                self.stats.cancelled = true;
+            }
             return;
         }
 
@@ -251,20 +318,37 @@ impl App {
         if let Some(ref data) = self.stats.result.clone() {
             let total = self.stats.total_rows;
             ScrollArea::vertical().show(ui, |ui| {
-                ui.label(RichText::new(format!("{} {table}  —  {total} {}", self.t().stats_table, self.t().lines)).strong());
+                ui.label(
+                    RichText::new(format!(
+                        "{} {table}  —  {total} {}",
+                        self.t().stats_table,
+                        self.t().lines
+                    ))
+                    .strong(),
+                );
                 ui.separator();
                 for (col, s) in data {
                     ui.collapsing(format!("[{col}]"), |ui| {
                         ui.label(format!("{} {}", self.t().stats_filled, s.non_null_count));
                         ui.label(format!("{} {}", self.t().stats_empty, s.null_count));
                         ui.label(format!("{} {}", self.t().stats_unique, s.unique_count));
-                        if let Some(ref v) = s.min_value { ui.label(format!("{} {v}", self.t().stats_min)); }
-                        if let Some(ref v) = s.max_value { ui.label(format!("{} {v}", self.t().stats_max)); }
-                        if let Some(a) = s.avg_value { ui.label(format!("{} {:.4}", self.t().stats_avg, a)); }
+                        if let Some(ref v) = s.min_value {
+                            ui.label(format!("{} {v}", self.t().stats_min));
+                        }
+                        if let Some(ref v) = s.max_value {
+                            ui.label(format!("{} {v}", self.t().stats_max));
+                        }
+                        if let Some(a) = s.avg_value {
+                            ui.label(format!("{} {:.4}", self.t().stats_avg, a));
+                        }
                         if !s.top_values.is_empty() {
                             ui.label(self.t().stats_top_values);
                             for (val, count) in s.top_values.iter().take(5) {
-                                let pct = if total > 0 { *count as f64 / total as f64 * 100.0 } else { 0.0 };
+                                let pct = if total > 0 {
+                                    *count as f64 / total as f64 * 100.0
+                                } else {
+                                    0.0
+                                };
                                 ui.label(format!("  {val:<15}  {count}  ({pct:.1}%)"));
                             }
                         }
@@ -294,16 +378,21 @@ impl App {
                                 .font(FontId::monospace(13.0))
                                 .desired_width(f32::INFINITY)
                                 .desired_rows(10)
-                                .hint_text("-- SQL Query")
+                                .hint_text("-- SQL Query"),
                         );
 
-                        if resp.has_focus() && ui.input(|i| i.modifiers.ctrl && i.key_pressed(egui::Key::Enter)) {
+                        if resp.has_focus()
+                            && ui.input(|i| i.modifiers.ctrl && i.key_pressed(egui::Key::Enter))
+                        {
                             self.run_query();
                         }
                     });
 
                 ui.horizontal(|ui| {
-                    if ui.add_enabled(self.db.is_some(), egui::Button::new(self.t().exec_sql)).clicked() {
+                    if ui
+                        .add_enabled(self.db.is_some(), egui::Button::new(self.t().exec_sql))
+                        .clicked()
+                    {
                         self.run_query();
                     }
                     if ui.button("★").on_hover_text("Add to favorites").clicked() {
@@ -336,7 +425,11 @@ impl App {
                         let history: Vec<String> = self.history.iter().cloned().collect();
                         for q in &history {
                             let label = q.replace('\n', " ");
-                            let label = if label.len() > 40 { format!("{}…", &label[..40]) } else { label };
+                            let label = if label.len() > 40 {
+                                format!("{}…", &label[..40])
+                            } else {
+                                label
+                            };
                             if ui.button(label).clicked() {
                                 self.sql_input = q.clone();
                             }
@@ -352,10 +445,18 @@ impl App {
                         let mut to_remove: Option<usize> = None;
                         for (i, q) in favorites.iter().enumerate() {
                             let label = q.replace('\n', " ");
-                            let label = if label.len() > 35 { format!("{}…", &label[..35]) } else { label };
+                            let label = if label.len() > 35 {
+                                format!("{}…", &label[..35])
+                            } else {
+                                label
+                            };
                             ui.horizontal(|ui| {
-                                if ui.small_button("🗑").clicked() { to_remove = Some(i); }
-                                if ui.button(label).clicked() { self.sql_input = q.clone(); }
+                                if ui.small_button("🗑").clicked() {
+                                    to_remove = Some(i);
+                                }
+                                if ui.button(label).clicked() {
+                                    self.sql_input = q.clone();
+                                }
                             });
                         }
                         if let Some(i) = to_remove {
@@ -369,7 +470,9 @@ impl App {
 
     fn show_sql_results(&mut self, ui: &mut Ui) {
         let col_count = self.sql_columns.len();
-        if col_count == 0 { return; }
+        if col_count == 0 {
+            return;
+        }
 
         let mut table = TableBuilder::new(ui)
             .striped(true)
@@ -383,17 +486,25 @@ impl App {
         table
             .header(24.0, |mut header: egui_extras::TableRow| {
                 for col in &self.sql_columns {
-                    header.col(|ui: &mut egui::Ui| { ui.label(RichText::new(col.as_str()).strong()); });
+                    header.col(|ui: &mut egui::Ui| {
+                        ui.label(RichText::new(col.as_str()).strong());
+                    });
                 }
             })
             .body(|body| {
-                body.rows(22.0, self.sql_rows.len(), |mut row: egui_extras::TableRow| {
-                    let row_data = &self.sql_rows[row.index()];
-                    for val in row_data {
-                        let v = val.clone();
-                        row.col(|ui: &mut egui::Ui| { ui.label(v.as_str()); });
-                    }
-                });
+                body.rows(
+                    22.0,
+                    self.sql_rows.len(),
+                    |mut row: egui_extras::TableRow| {
+                        let row_data = &self.sql_rows[row.index()];
+                        for val in row_data {
+                            let v = val.clone();
+                            row.col(|ui: &mut egui::Ui| {
+                                ui.label(v.as_str());
+                            });
+                        }
+                    },
+                );
             });
     }
 }

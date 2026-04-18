@@ -1,6 +1,6 @@
+use super::{ActiveTab, App, InputAction, InputDialog};
 use crate::db::DatabaseManager;
 use crate::dialogs::{EditRecordDialog, ErdWindow};
-use super::{ActiveTab, App, InputAction, InputDialog};
 
 impl App {
     pub(super) fn open_db_file(&mut self) {
@@ -30,7 +30,10 @@ impl App {
     }
 
     pub(super) fn open_import_csv(&mut self) {
-        if self.db.is_none() { self.toast(self.t().load_db_first.to_string()); return; }
+        if self.db.is_none() {
+            self.toast(self.t().load_db_first.to_string());
+            return;
+        }
         let path = rfd::FileDialog::new()
             .add_filter("CSV Files", &["csv"])
             .add_filter("All Files", &["*"])
@@ -64,7 +67,9 @@ impl App {
 
     pub(super) fn open_erd(&mut self) {
         if let Some(db) = &self.db {
-            let tables: Vec<(String, Vec<String>, Vec<crate::db::ForeignKey>)> = self.tables.iter()
+            let tables: Vec<(String, Vec<String>, Vec<crate::db::ForeignKey>)> = self
+                .tables
+                .iter()
                 .map(|t| {
                     let cols = db.get_columns(t).unwrap_or_default();
                     let fks = db.get_foreign_keys(t).unwrap_or_default();
@@ -87,9 +92,14 @@ impl App {
     }
 
     pub(super) fn run_query(&mut self) {
-        if self.db.is_none() { self.toast(self.t().load_db_first.to_string()); return; }
+        if self.db.is_none() {
+            self.toast(self.t().load_db_first.to_string());
+            return;
+        }
         let query = self.sql_input.trim().to_string();
-        if query.is_empty() { return; }
+        if query.is_empty() {
+            return;
+        }
 
         self.sql_error = None;
         self.sql_columns.clear();
@@ -114,9 +124,15 @@ impl App {
             ActiveTab::Sql => (&self.sql_columns, &self.sql_rows),
             _ => (&self.columns, &self.rows),
         };
-        if rows.is_empty() { self.toast(self.t().no_data_export.to_string()); return; }
+        if rows.is_empty() {
+            self.toast(self.t().no_data_export.to_string());
+            return;
+        }
 
-        let base = self.selected_table.clone().unwrap_or_else(|| "export".to_string());
+        let base = self
+            .selected_table
+            .clone()
+            .unwrap_or_else(|| "export".to_string());
         let path = rfd::FileDialog::new()
             .add_filter("CSV", &["csv"])
             .add_filter("JSON", &["json"])
@@ -125,7 +141,11 @@ impl App {
 
         if let Some(p) = path {
             let p_str = p.to_string_lossy().to_string();
-            let skip = if matches!(self.active_tab, ActiveTab::Data) { 1 } else { 0 };
+            let skip = if matches!(self.active_tab, ActiveTab::Data) {
+                1
+            } else {
+                0
+            };
             let display_cols: Vec<&String> = cols.iter().skip(skip).collect();
             let result = if p_str.to_lowercase().ends_with(".json") {
                 self.export_json(&p_str, &display_cols, rows, skip)
@@ -139,12 +159,19 @@ impl App {
         }
     }
 
-    fn export_csv(&self, path: &str, cols: &[&String], rows: &[Vec<String>], skip: usize) -> Result<(), String> {
+    fn export_csv(
+        &self,
+        path: &str,
+        cols: &[&String],
+        rows: &[Vec<String>],
+        skip: usize,
+    ) -> Result<(), String> {
         let mut wtr = csv::WriterBuilder::new()
             .delimiter(b';')
             .from_path(path)
             .map_err(|e| e.to_string())?;
-        wtr.write_record(cols.iter().map(|c| c.as_str())).map_err(|e| e.to_string())?;
+        wtr.write_record(cols.iter().map(|c| c.as_str()))
+            .map_err(|e| e.to_string())?;
         for row in rows {
             let vals: Vec<&str> = row.iter().skip(skip).map(String::as_str).collect();
             wtr.write_record(&vals).map_err(|e| e.to_string())?;
@@ -153,13 +180,24 @@ impl App {
         Ok(())
     }
 
-    fn export_json(&self, path: &str, cols: &[&String], rows: &[Vec<String>], skip: usize) -> Result<(), String> {
-        let data: Vec<serde_json::Value> = rows.iter().map(|row| {
-            let obj: serde_json::Map<String, serde_json::Value> = cols.iter().zip(row.iter().skip(skip))
-                .map(|(c, v)| (c.to_string(), serde_json::Value::String(v.clone())))
-                .collect();
-            serde_json::Value::Object(obj)
-        }).collect();
+    fn export_json(
+        &self,
+        path: &str,
+        cols: &[&String],
+        rows: &[Vec<String>],
+        skip: usize,
+    ) -> Result<(), String> {
+        let data: Vec<serde_json::Value> = rows
+            .iter()
+            .map(|row| {
+                let obj: serde_json::Map<String, serde_json::Value> = cols
+                    .iter()
+                    .zip(row.iter().skip(skip))
+                    .map(|(c, v)| (c.to_string(), serde_json::Value::String(v.clone())))
+                    .collect();
+                serde_json::Value::Object(obj)
+            })
+            .collect();
         let s = serde_json::to_string_pretty(&data).map_err(|e| e.to_string())?;
         std::fs::write(path, s).map_err(|e| e.to_string())?;
         Ok(())

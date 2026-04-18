@@ -23,9 +23,12 @@ if (-not (Get-Command cargo -ErrorAction SilentlyContinue)) {
 
 # Configurar exclusão do Defender para a pasta target (evita locks durante link)
 $targetRelease = Join-Path $repoRoot "target\release"
-try {
-    Add-MpPreference -ExclusionPath $targetRelease -ErrorAction SilentlyContinue
-} catch { }
+if (([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    try {
+        Add-MpPreference -ExclusionPath $targetRelease -ErrorAction SilentlyContinue
+        Write-Host ">>> Exclusão do Defender aplicada para o diretório target." -ForegroundColor DarkGray
+    } catch { }
+}
 
 Write-Host ">>> Compilando em modo Release (LTO + strip)..." -ForegroundColor Yellow
 $sw = [System.Diagnostics.Stopwatch]::StartNew()

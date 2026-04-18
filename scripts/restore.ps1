@@ -61,8 +61,7 @@ if ([string]::IsNullOrWhiteSpace($choice)) {
     exit 0
 }
 
-$idx = [int]$choice - 1
-if ($idx -lt 0 -or $idx -ge $backups.Count) {
+if ($choice -notmatch "^\d+$" -or ($idx = [int]$choice - 1) -lt 0 -or $idx -ge $backups.Count) {
     Write-Error "Número inválido: $choice"
     exit 1
 }

@@ -1,4 +1,4 @@
-use rusqlite::{Connection, Result as SqlResult, params};
+use rusqlite::{params, Connection, Result as SqlResult};
 use std::path::Path;
 
 #[derive(Debug, Clone)]
@@ -54,11 +54,15 @@ impl DatabaseManager {
             .map_err(|e| format!("Failed to open database: {e}"))?;
         conn.execute_batch("PRAGMA foreign_keys = ON;")
             .map_err(|e| format!("Failed to set pragmas: {e}"))?;
-        Ok(Self { conn, path: path.to_string() })
+        Ok(Self {
+            conn,
+            path: path.to_string(),
+        })
     }
 
     pub fn get_tables(&self) -> Result<Vec<String>, String> {
-        let mut stmt = self.conn
+        let mut stmt = self
+            .conn
             .prepare("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;")
             .map_err(|e| e.to_string())?;
         let tables = stmt
@@ -70,8 +74,12 @@ impl DatabaseManager {
     }
 
     pub fn get_columns(&self, table: &str) -> Result<Vec<String>, String> {
-        let mut stmt = self.conn
-            .prepare(&format!("PRAGMA table_info('{}')", table.replace('\'', "''")))
+        let mut stmt = self
+            .conn
+            .prepare(&format!(
+                "PRAGMA table_info('{}')",
+                table.replace('\'', "''")
+            ))
             .map_err(|e| e.to_string())?;
         let cols = stmt
             .query_map([], |row| row.get::<_, String>(1))
@@ -82,8 +90,12 @@ impl DatabaseManager {
     }
 
     pub fn get_column_types(&self, table: &str) -> Result<Vec<(String, String)>, String> {
-        let mut stmt = self.conn
-            .prepare(&format!("PRAGMA table_info('{}')", table.replace('\'', "''")))
+        let mut stmt = self
+            .conn
+            .prepare(&format!(
+                "PRAGMA table_info('{}')",
+                table.replace('\'', "''")
+            ))
             .map_err(|e| e.to_string())?;
         let pairs = stmt
             .query_map([], |row| {
@@ -96,8 +108,12 @@ impl DatabaseManager {
     }
 
     pub fn get_foreign_keys(&self, table: &str) -> Result<Vec<ForeignKey>, String> {
-        let mut stmt = self.conn
-            .prepare(&format!("PRAGMA foreign_key_list('{}');", table.replace('\'', "''")))
+        let mut stmt = self
+            .conn
+            .prepare(&format!(
+                "PRAGMA foreign_key_list('{}');",
+                table.replace('\'', "''")
+            ))
             .map_err(|e| e.to_string())?;
         let fks = stmt
             .query_map([], |row| {
@@ -131,7 +147,8 @@ impl DatabaseManager {
         if filter.column == "All" || filter.column == "Todos" || filter.column.is_empty() {
             if let Ok(cols) = self.get_columns(table) {
                 let wildcard = format!("%{}%", filter.value);
-                let conditions: Vec<String> = cols.iter()
+                let conditions: Vec<String> = cols
+                    .iter()
                     .map(|c| format!("{} LIKE ?", Self::escape(c)))
                     .collect();
                 let params = vec![wildcard; cols.len()];
@@ -155,7 +172,9 @@ impl DatabaseManager {
         let query = format!("SELECT COUNT(*) FROM {safe_table}{where_clause}");
         let mut stmt = self.conn.prepare(&query).map_err(|e| e.to_string())?;
         let count = stmt
-            .query_row(rusqlite::params_from_iter(params.iter()), |row| row.get::<_, i64>(0))
+            .query_row(rusqlite::params_from_iter(params.iter()), |row| {
+                row.get::<_, i64>(0)
+            })
             .map_err(|e| e.to_string())?;
         Ok(count)
     }
@@ -173,10 +192,18 @@ impl DatabaseManager {
         let (where_clause, mut params) = self.build_where(table, filter);
 
         let order_clause = sort_col
-            .map(|c| format!(" ORDER BY {} {}", Self::escape(c), if sort_asc { "ASC" } else { "DESC" }))
+            .map(|c| {
+                format!(
+                    " ORDER BY {} {}",
+                    Self::escape(c),
+                    if sort_asc { "ASC" } else { "DESC" }
+                )
+            })
             .unwrap_or_default();
 
-        let query = format!("SELECT rowid, * FROM {safe_table}{where_clause}{order_clause} LIMIT ? OFFSET ?");
+        let query = format!(
+            "SELECT rowid, * FROM {safe_table}{where_clause}{order_clause} LIMIT ? OFFSET ?"
+        );
         params.push(limit.to_string());
         params.push(offset.to_string());
 
@@ -192,7 +219,9 @@ impl DatabaseManager {
                         Ok(rusqlite::types::ValueRef::Null) => String::from("NULL"),
                         Ok(rusqlite::types::ValueRef::Integer(n)) => n.to_string(),
                         Ok(rusqlite::types::ValueRef::Real(f)) => f.to_string(),
-                        Ok(rusqlite::types::ValueRef::Text(t)) => String::from_utf8_lossy(t).into_owned(),
+                        Ok(rusqlite::types::ValueRef::Text(t)) => {
+                            String::from_utf8_lossy(t).into_owned()
+                        }
                         Ok(rusqlite::types::ValueRef::Blob(_)) => String::from("[BLOB]"),
                         Err(_) => String::new(),
                     };
@@ -239,17 +268,29 @@ impl DatabaseManager {
         Ok(())
     }
 
-    pub fn update_record(&self, table: &str, rowid: i64, data: &[(String, String)]) -> Result<(), String> {
+    pub fn update_record(
+        &self,
+        table: &str,
+        rowid: i64,
+        data: &[(String, String)],
+    ) -> Result<(), String> {
         if data.is_empty() {
             return Err("No data provided.".into());
         }
         self.validate_data(table, data)?;
         let safe_table = Self::escape(table);
-        let set_parts: Vec<String> = data.iter().map(|(c, _)| format!("{} = ?", Self::escape(c))).collect();
+        let set_parts: Vec<String> = data
+            .iter()
+            .map(|(c, _)| format!("{} = ?", Self::escape(c)))
+            .collect();
         let mut vals: Vec<String> = data.iter().map(|(_, v)| v.clone()).collect();
         vals.push(rowid.to_string());
-        let query = format!("UPDATE {safe_table} SET {} WHERE rowid = ?", set_parts.join(", "));
-        let affected = self.conn
+        let query = format!(
+            "UPDATE {safe_table} SET {} WHERE rowid = ?",
+            set_parts.join(", ")
+        );
+        let affected = self
+            .conn
             .execute(&query, rusqlite::params_from_iter(vals.iter()))
             .map_err(|e| e.to_string())?;
         if affected == 0 {
@@ -260,7 +301,8 @@ impl DatabaseManager {
 
     pub fn delete_record(&self, table: &str, rowid: i64) -> Result<(), String> {
         let query = format!("DELETE FROM {} WHERE rowid = ?", Self::escape(table));
-        let affected = self.conn
+        let affected = self
+            .conn
             .execute(&query, params![rowid])
             .map_err(|e| e.to_string())?;
         if affected == 0 {
@@ -269,7 +311,12 @@ impl DatabaseManager {
         Ok(())
     }
 
-    pub fn create_table(&self, name: &str, cols: &[ColumnDef], fks: &[ForeignKeyDef]) -> Result<(), String> {
+    pub fn create_table(
+        &self,
+        name: &str,
+        cols: &[ColumnDef],
+        fks: &[ForeignKeyDef],
+    ) -> Result<(), String> {
         if name.trim().is_empty() {
             return Err("Table name cannot be empty.".into());
         }
@@ -277,13 +324,22 @@ impl DatabaseManager {
             return Err("Table must have at least one column.".into());
         }
         let safe_name = Self::escape(name);
-        let mut defs: Vec<String> = cols.iter().map(|c| {
-            let mut def = format!("{} {}", Self::escape(&c.name), c.col_type);
-            if c.pk { def.push_str(" PRIMARY KEY"); }
-            if c.ai { def.push_str(" AUTOINCREMENT"); }
-            if c.nn { def.push_str(" NOT NULL"); }
-            def
-        }).collect();
+        let mut defs: Vec<String> = cols
+            .iter()
+            .map(|c| {
+                let mut def = format!("{} {}", Self::escape(&c.name), c.col_type);
+                if c.pk {
+                    def.push_str(" PRIMARY KEY");
+                }
+                if c.ai {
+                    def.push_str(" AUTOINCREMENT");
+                }
+                if c.nn {
+                    def.push_str(" NOT NULL");
+                }
+                def
+            })
+            .collect();
         for fk in fks {
             defs.push(format!(
                 "FOREIGN KEY ({}) REFERENCES {} ({})",
@@ -298,7 +354,11 @@ impl DatabaseManager {
     }
 
     pub fn rename_table(&self, old: &str, new: &str) -> Result<(), String> {
-        let query = format!("ALTER TABLE {} RENAME TO {}", Self::escape(old), Self::escape(new));
+        let query = format!(
+            "ALTER TABLE {} RENAME TO {}",
+            Self::escape(old),
+            Self::escape(new)
+        );
         self.conn.execute(&query, []).map_err(|e| e.to_string())?;
         Ok(())
     }
@@ -310,7 +370,9 @@ impl DatabaseManager {
     }
 
     pub fn vacuum(&self) -> Result<(), String> {
-        self.conn.execute_batch("VACUUM;").map_err(|e| e.to_string())
+        self.conn
+            .execute_batch("VACUUM;")
+            .map_err(|e| e.to_string())
     }
 
     pub fn execute_query(&self, query: &str) -> Result<(Vec<String>, Vec<Vec<String>>), String> {
@@ -330,7 +392,9 @@ impl DatabaseManager {
                         Ok(rusqlite::types::ValueRef::Null) => String::from("NULL"),
                         Ok(rusqlite::types::ValueRef::Integer(n)) => n.to_string(),
                         Ok(rusqlite::types::ValueRef::Real(f)) => f.to_string(),
-                        Ok(rusqlite::types::ValueRef::Text(t)) => String::from_utf8_lossy(t).into_owned(),
+                        Ok(rusqlite::types::ValueRef::Text(t)) => {
+                            String::from_utf8_lossy(t).into_owned()
+                        }
                         Ok(rusqlite::types::ValueRef::Blob(_)) => String::from("[BLOB]"),
                         Err(_) => String::new(),
                     };
@@ -350,7 +414,8 @@ impl DatabaseManager {
             .from_path(csv_path)
             .map_err(|e| e.to_string())?;
 
-        let headers: Vec<String> = rdr.headers()
+        let headers: Vec<String> = rdr
+            .headers()
             .map_err(|e| e.to_string())?
             .iter()
             .map(|h| h.trim().to_string())
@@ -361,19 +426,28 @@ impl DatabaseManager {
         }
 
         let safe_table = Self::escape(table_name);
-        let col_defs: Vec<String> = headers.iter().map(|h| format!("{} TEXT", Self::escape(h))).collect();
+        let col_defs: Vec<String> = headers
+            .iter()
+            .map(|h| format!("{} TEXT", Self::escape(h)))
+            .collect();
         let create_q = format!("CREATE TABLE {safe_table} ({})", col_defs.join(", "));
-        self.conn.execute(&create_q, []).map_err(|e| e.to_string())?;
+        self.conn
+            .execute(&create_q, [])
+            .map_err(|e| e.to_string())?;
 
         let escaped_cols: Vec<String> = headers.iter().map(|h| Self::escape(h)).collect();
         let placeholders = vec!["?"; headers.len()].join(", ");
-        let insert_q = format!("INSERT INTO {safe_table} ({}) VALUES ({placeholders})", escaped_cols.join(", "));
+        let insert_q = format!(
+            "INSERT INTO {safe_table} ({}) VALUES ({placeholders})",
+            escaped_cols.join(", ")
+        );
 
         let mut count = 0;
         for result in rdr.records() {
             let record = result.map_err(|e| e.to_string())?;
             let vals: Vec<&str> = record.iter().collect();
-            self.conn.execute(&insert_q, rusqlite::params_from_iter(vals.iter()))
+            self.conn
+                .execute(&insert_q, rusqlite::params_from_iter(vals.iter()))
                 .map_err(|e| e.to_string())?;
             count += 1;
         }
@@ -392,16 +466,18 @@ impl DatabaseManager {
         );
 
         let mut stats = ColumnStats::default();
-        self.conn.query_row(&agg_query, [], |row| {
-            stats.total_rows = row.get::<_, i64>(0).unwrap_or(0);
-            stats.non_null_count = row.get::<_, i64>(1).unwrap_or(0);
-            stats.null_count = row.get::<_, i64>(2).unwrap_or(0);
-            stats.unique_count = row.get::<_, i64>(3).unwrap_or(0);
-            stats.min_value = row.get::<_, Option<String>>(4).unwrap_or(None);
-            stats.max_value = row.get::<_, Option<String>>(5).unwrap_or(None);
-            stats.avg_value = row.get::<_, Option<f64>>(6).unwrap_or(None);
-            Ok(())
-        }).map_err(|e| e.to_string())?;
+        self.conn
+            .query_row(&agg_query, [], |row| {
+                stats.total_rows = row.get::<_, i64>(0).unwrap_or(0);
+                stats.non_null_count = row.get::<_, i64>(1).unwrap_or(0);
+                stats.null_count = row.get::<_, i64>(2).unwrap_or(0);
+                stats.unique_count = row.get::<_, i64>(3).unwrap_or(0);
+                stats.min_value = row.get::<_, Option<String>>(4).unwrap_or(None);
+                stats.max_value = row.get::<_, Option<String>>(5).unwrap_or(None);
+                stats.avg_value = row.get::<_, Option<f64>>(6).unwrap_or(None);
+                Ok(())
+            })
+            .map_err(|e| e.to_string())?;
 
         let top_query = format!(
             "SELECT {safe_col}, COUNT(*) as freq FROM {safe_table} \
@@ -425,14 +501,19 @@ impl DatabaseManager {
     fn validate_data(&self, table: &str, data: &[(String, String)]) -> Result<(), String> {
         let types = self.get_column_types(table).unwrap_or_default();
         for (col, val) in data {
-            if val.is_empty() { continue; }
+            if val.is_empty() {
+                continue;
+            }
             if let Some((_, dtype)) = types.iter().find(|(c, _)| c == col) {
                 let up = dtype.to_uppercase();
                 if up.contains("INT") {
                     val.parse::<i64>().map_err(|_| {
                         format!("Column '{col}' ({dtype}) expects an integer, got '{val}'.")
                     })?;
-                } else if ["REAL", "FLOAT", "DOUBLE", "DECIMAL", "NUMERIC"].iter().any(|t| up.contains(t)) {
+                } else if ["REAL", "FLOAT", "DOUBLE", "DECIMAL", "NUMERIC"]
+                    .iter()
+                    .any(|t| up.contains(t))
+                {
                     val.parse::<f64>().map_err(|_| {
                         format!("Column '{col}' ({dtype}) expects a number, got '{val}'.")
                     })?;
