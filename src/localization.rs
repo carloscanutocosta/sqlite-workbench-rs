@@ -1,5 +1,9 @@
 #[derive(Debug, Clone, PartialEq, Default, serde::Serialize, serde::Deserialize)]
-pub enum Language { #[default] Pt, En }
+pub enum Language {
+    #[default]
+    Pt,
+    En,
+}
 
 pub struct T {
     pub app_title: &'static str,
@@ -94,6 +98,9 @@ pub struct T {
     pub language_label: &'static str,
     pub export_stats: &'static str,
     pub open_sql_tab: &'static str,
+    pub menu_file: &'static str,
+    pub menu_table: &'static str,
+    pub menu_settings: &'static str,
 }
 
 pub const PT: T = T {
@@ -189,6 +196,9 @@ pub const PT: T = T {
     language_label: "Idioma",
     export_stats: "Guardar JSON",
     open_sql_tab: "Abrir aba SQL",
+    menu_file: "Ficheiro",
+    menu_table: "Tabela",
+    menu_settings: "Definições",
 };
 
 pub const EN: T = T {
@@ -284,8 +294,14 @@ pub const EN: T = T {
     language_label: "Language",
     export_stats: "Save JSON",
     open_sql_tab: "Open SQL tab",
+    menu_file: "File",
+    menu_table: "Table",
+    menu_settings: "Settings",
 };
 
 pub fn get(lang: &Language) -> &'static T {
-    match lang { Language::Pt => &PT, Language::En => &EN }
+    match lang {
+        Language::Pt => &PT,
+        Language::En => &EN,
+    }
 }

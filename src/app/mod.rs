@@ -16,10 +16,9 @@ mod tabs;
 
 pub(super) const SIDEBAR_WIDTH: f32 = 210.0;
 pub(super) const SQL_KEYWORDS: &[&str] = &[
-    "SELECT", "FROM", "WHERE", "INSERT", "INTO", "VALUES", "UPDATE", "SET",
-    "DELETE", "CREATE", "TABLE", "DROP", "ALTER", "INDEX", "VIEW", "TRIGGER",
-    "AND", "OR", "NOT", "NULL", "IS", "IN", "BETWEEN", "LIKE", "LIMIT",
-    "OFFSET", "ORDER", "BY", "GROUP", "HAVING", "JOIN", "ON", "AS",
+    "SELECT", "FROM", "WHERE", "INSERT", "INTO", "VALUES", "UPDATE", "SET", "DELETE", "CREATE",
+    "TABLE", "DROP", "ALTER", "INDEX", "VIEW", "TRIGGER", "AND", "OR", "NOT", "NULL", "IS", "IN",
+    "BETWEEN", "LIKE", "LIMIT", "OFFSET", "ORDER", "BY", "GROUP", "HAVING", "JOIN", "ON", "AS",
     "DISTINCT", "CASE", "WHEN", "THEN", "ELSE", "END", "PRAGMA",
 ];
 
@@ -31,16 +30,30 @@ pub struct Settings {
 }
 
 #[derive(Serialize, Deserialize, Clone, PartialEq, Debug, Default)]
-pub enum AppTheme { #[default] Dark, Light }
+pub enum AppTheme {
+    #[default]
+    Dark,
+    Light,
+}
 
 impl Default for Settings {
     fn default() -> Self {
-        Self { language: Language::Pt, theme: AppTheme::Dark, rows_per_page: 1000 }
+        Self {
+            language: Language::Pt,
+            theme: AppTheme::Dark,
+            rows_per_page: 1000,
+        }
     }
 }
 
 #[derive(Default, Clone, PartialEq)]
-pub(super) enum ActiveTab { #[default] Data, Schema, Stats, Sql }
+pub(super) enum ActiveTab {
+    #[default]
+    Data,
+    Schema,
+    Stats,
+    Sql,
+}
 
 #[derive(Default)]
 pub(super) struct StatsState {
@@ -121,7 +134,8 @@ pub struct App {
     pub(super) read_only: bool,
 
     // Pending async data load
-    pub(super) pending_load: Option<Arc<Mutex<Option<Result<(Vec<String>, Vec<Vec<String>>), String>>>>>,
+    pub(super) pending_load:
+        Option<Arc<Mutex<Option<Result<(Vec<String>, Vec<Vec<String>>), String>>>>>,
     pub(super) pending_page: usize,
     pub(super) pending_total: Option<Arc<Mutex<Option<Result<i64, String>>>>>,
 }
@@ -184,7 +198,11 @@ impl App {
             tables: vec![],
             table_search: String::new(),
             selected_table: None,
-            filter: FilterConfig { column: String::new(), operator: "LIKE".into(), value: String::new() },
+            filter: FilterConfig {
+                column: String::new(),
+                operator: "LIKE".into(),
+                value: String::new(),
+            },
             filter_col_options: vec![],
             current_page: 1,
             total_pages: 1,
@@ -284,7 +302,11 @@ impl App {
         self.current_page = 1;
         self.sort_col = None;
         self.sort_asc = true;
-        self.filter = FilterConfig { column: String::new(), operator: "LIKE".into(), value: String::new() };
+        self.filter = FilterConfig {
+            column: String::new(),
+            operator: "LIKE".into(),
+            value: String::new(),
+        };
 
         if let Some(db) = &self.db {
             self.schema_text = db.get_table_schema(&name);
@@ -300,8 +322,13 @@ impl App {
     }
 
     pub(super) fn start_data_load(&mut self, page: usize, recalc_total: bool) {
-        let Some(db_path) = self.db.as_ref().map(|db| db.path.clone()) else { return };
-        let table = match &self.selected_table { Some(t) => t.clone(), None => return };
+        let Some(db_path) = self.db.as_ref().map(|db| db.path.clone()) else {
+            return;
+        };
+        let table = match &self.selected_table {
+            Some(t) => t.clone(),
+            None => return,
+        };
 
         self.loading_data = true;
         self.pending_page = page;
@@ -326,21 +353,38 @@ impl App {
             self.pending_total = Some(arc_total);
         }
 
-        let arc_data: Arc<Mutex<Option<Result<(Vec<String>, Vec<Vec<String>>), String>>>> = Arc::new(Mutex::new(None));
+        let arc_data: Arc<Mutex<Option<Result<(Vec<String>, Vec<Vec<String>>), String>>>> =
+            Arc::new(Mutex::new(None));
         let arc_clone = arc_data.clone();
         thread::spawn(move || {
-            let result = DatabaseManager::open(&db_path)
-                .and_then(|db| db.get_table_data(&table, limit, offset, &filter, sort_col.as_deref(), sort_asc));
+            let result = DatabaseManager::open(&db_path).and_then(|db| {
+                db.get_table_data(
+                    &table,
+                    limit,
+                    offset,
+                    &filter,
+                    sort_col.as_deref(),
+                    sort_asc,
+                )
+            });
             *arc_clone.lock().unwrap() = Some(result);
         });
         self.pending_load = Some(arc_data);
     }
 
     pub(super) fn start_stats_load(&mut self) {
-        let Some(db_path) = self.db.as_ref().map(|db| db.path.clone()) else { return };
-        let table = match &self.selected_table { Some(t) => t.clone(), None => return };
+        let Some(db_path) = self.db.as_ref().map(|db| db.path.clone()) else {
+            return;
+        };
+        let table = match &self.selected_table {
+            Some(t) => t.clone(),
+            None => return,
+        };
 
-        self.stats = StatsState { loading: true, ..Default::default() };
+        self.stats = StatsState {
+            loading: true,
+            ..Default::default()
+        };
         let arc: AsyncStatsResult = Arc::new(Mutex::new(None));
         let arc_clone = arc.clone();
 
@@ -421,7 +465,9 @@ impl App {
         let q = query.to_string();
         if self.history.front().map(|h| h != &q).unwrap_or(true) {
             self.history.push_front(q);
-            if self.history.len() > 20 { self.history.pop_back(); }
+            if self.history.len() > 20 {
+                self.history.pop_back();
+            }
             self.save_history();
         }
     }
@@ -434,54 +480,80 @@ impl eframe::App for App {
 
         if let Some((_, ref mut t)) = self.toast {
             *t -= ctx.input(|i| i.stable_dt) as f64;
-            if *t <= 0.0 { self.toast = None; }
+            if *t <= 0.0 {
+                self.toast = None;
+            }
         }
 
         egui::TopBottomPanel::top("menu_bar").show(ctx, |ui| {
             egui::menu::bar(ui, |ui| {
-                ui.menu_button("File", |ui| {
+                ui.menu_button(self.t().menu_file, |ui| {
                     if ui.button(self.t().load_db).clicked() {
                         self.open_db_file();
                         ui.close_menu();
                     }
-                    if ui.add_enabled(self.db.is_some(), egui::Button::new(self.t().import_csv)).clicked() {
+                    if ui
+                        .add_enabled(self.db.is_some(), egui::Button::new(self.t().import_csv))
+                        .clicked()
+                    {
                         self.open_import_csv();
                         ui.close_menu();
                     }
-                    if ui.add_enabled(self.db.is_some(), egui::Button::new(self.t().compact_db)).clicked() {
+                    if ui
+                        .add_enabled(self.db.is_some(), egui::Button::new(self.t().compact_db))
+                        .clicked()
+                    {
                         self.do_vacuum(ctx);
                         ui.close_menu();
                     }
                 });
-                ui.menu_button("Table", |ui| {
-                    if ui.add_enabled(self.db.is_some(), egui::Button::new(self.t().new_table)).clicked() {
+                ui.menu_button(self.t().menu_table, |ui| {
+                    if ui
+                        .add_enabled(self.db.is_some(), egui::Button::new(self.t().new_table))
+                        .clicked()
+                    {
                         self.open_create_table_dialog();
                         ui.close_menu();
                     }
-                    if ui.add_enabled(self.db.is_some(), egui::Button::new(self.t().erd_view)).clicked() {
+                    if ui
+                        .add_enabled(self.db.is_some(), egui::Button::new(self.t().erd_view))
+                        .clicked()
+                    {
                         self.open_erd();
                         ui.close_menu();
                     }
                 });
-                ui.menu_button("Settings", |ui| {
+                ui.menu_button(self.t().menu_settings, |ui| {
                     let t = self.t();
                     ui.label(t.language_label);
-                    if ui.selectable_label(self.settings.language == Language::Pt, "Português").clicked() {
+                    if ui
+                        .selectable_label(self.settings.language == Language::Pt, "Português")
+                        .clicked()
+                    {
                         self.settings.language = Language::Pt;
                         self.save_settings();
                     }
-                    if ui.selectable_label(self.settings.language == Language::En, "English").clicked() {
+                    if ui
+                        .selectable_label(self.settings.language == Language::En, "English")
+                        .clicked()
+                    {
                         self.settings.language = Language::En;
                         self.save_settings();
                     }
                     ui.separator();
                     ui.label(t.theme);
-                    if ui.selectable_label(self.settings.theme == AppTheme::Dark, "Dark").clicked() {
+                    if ui
+                        .selectable_label(self.settings.theme == AppTheme::Dark, "Dark")
+                        .clicked()
+                    {
                         self.settings.theme = AppTheme::Dark;
                         ctx.set_visuals(egui::Visuals::dark());
                         self.save_settings();
                     }
-                    if ui.selectable_label(self.settings.theme == AppTheme::Light, "Light").clicked() {
+                    if ui
+                        .selectable_label(self.settings.theme == AppTheme::Light, "Light")
+                        .clicked()
+                    {
                         self.settings.theme = AppTheme::Light;
                         ctx.set_visuals(egui::Visuals::light());
                         self.save_settings();
@@ -489,7 +561,10 @@ impl eframe::App for App {
                     ui.separator();
                     ui.label(t.rows_per_page);
                     for &n in &[100usize, 500, 1000, 5000] {
-                        if ui.selectable_label(self.settings.rows_per_page == n, n.to_string()).clicked() {
+                        if ui
+                            .selectable_label(self.settings.rows_per_page == n, n.to_string())
+                            .clicked()
+                        {
                             self.settings.rows_per_page = n;
                             self.rows_per_page_str = n.to_string();
                             self.save_settings();
@@ -505,7 +580,11 @@ impl eframe::App for App {
 
         egui::TopBottomPanel::bottom("footer").show(ctx, |ui| {
             ui.horizontal(|ui| {
-                ui.label(RichText::new(self.t().footer_author).color(Color32::GRAY).small());
+                ui.label(
+                    RichText::new(self.t().footer_author)
+                        .color(Color32::GRAY)
+                        .small(),
+                );
                 ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
                     if let Some((ref msg, _)) = self.toast {
                         ui.label(RichText::new(msg).color(Color32::GOLD));
