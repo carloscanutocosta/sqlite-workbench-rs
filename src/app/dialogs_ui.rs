@@ -281,6 +281,7 @@ impl App {
 
         let t = self.t();
         let mut open = self.show_about;
+        let mut close_clicked = false;
 
         egui::Window::new(t.about_title)
             .collapsible(false)
@@ -349,13 +350,13 @@ impl App {
                     );
                     ui.add_space(8.0);
                     if ui.button(t.about_close).clicked() {
-                        self.show_about = false;
+                        close_clicked = true;
                     }
                 });
 
                 ui.add_space(4.0);
             });
 
-        self.show_about = open;
+        self.show_about = open && !close_clicked;
     }
 }
