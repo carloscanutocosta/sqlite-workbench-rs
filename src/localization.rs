@@ -9,6 +9,7 @@ pub enum Language {
 pub struct T {
     pub app_title: &'static str,
     pub db_explorer: &'static str,
+    pub new_db: &'static str,
     pub load_db: &'static str,
     pub import_csv: &'static str,
     pub new_table: &'static str,
@@ -117,6 +118,7 @@ pub struct T {
 pub const PT: T = T {
     app_title: "SQLite Workbench",
     db_explorer: "Explorador DB",
+    new_db: "Nova DB",
     load_db: "Carregar .DB",
     import_csv: "Importar CSV",
     new_table: "Nova Tabela",
@@ -225,6 +227,7 @@ pub const PT: T = T {
 pub const EN: T = T {
     app_title: "SQLite Workbench",
     db_explorer: "DB Explorer",
+    new_db: "New DB",
     load_db: "Load .DB",
     import_csv: "Import CSV",
     new_table: "New Table",

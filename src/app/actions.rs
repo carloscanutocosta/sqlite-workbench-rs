@@ -3,6 +3,36 @@ use crate::db::DatabaseManager;
 use crate::dialogs::{EditRecordDialog, ErdWindow};
 
 impl App {
+    pub(super) fn create_new_db(&mut self) {
+        let path = rfd::FileDialog::new()
+            .add_filter("SQLite Database", &["db", "sqlite", "sqlite3"])
+            .set_file_name("new_database.db")
+            .save_file();
+
+        if let Some(p) = path {
+            let path_str = p.to_string_lossy().to_string();
+            if p.exists() {
+                if let Err(e) = std::fs::remove_file(&p) {
+                    self.toast(format!("{}: {e}", self.t().error));
+                    return;
+                }
+            }
+            match DatabaseManager::open(&path_str) {
+                Ok(db) => {
+                    self.db = Some(db);
+                    self.db_path = path_str;
+                    self.selected_table = None;
+                    self.columns.clear();
+                    self.rows.clear();
+                    self.schema_text.clear();
+                    self.tables.clear();
+                    self.toast(self.t().success.to_string());
+                }
+                Err(e) => self.toast(format!("{}: {e}", self.t().error)),
+            }
+        }
+    }
+
     pub(super) fn open_db_file(&mut self) {
         let path = rfd::FileDialog::new()
             .add_filter("SQLite Database", &["db", "sqlite", "sqlite3"])

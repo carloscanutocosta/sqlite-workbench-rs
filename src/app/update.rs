@@ -19,6 +19,10 @@ impl eframe::App for App {
         egui::TopBottomPanel::top("menu_bar").show(ctx, |ui| {
             egui::menu::bar(ui, |ui| {
                 ui.menu_button(self.t().menu_file, |ui| {
+                    if ui.button(self.t().new_db).clicked() {
+                        self.create_new_db();
+                        ui.close_menu();
+                    }
                     if ui.button(self.t().load_db).clicked() {
                         self.open_db_file();
                         ui.close_menu();
