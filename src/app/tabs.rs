@@ -109,7 +109,7 @@ impl App {
         ui.add_space(4.0);
 
         let available = ui.available_height() - 30.0;
-        egui::Frame::dark_canvas(ui.style()).show(ui, |ui| {
+        egui::Frame::canvas(ui.style()).show(ui, |ui| {
             ScrollArea::both().max_height(available).show(ui, |ui| {
                 self.show_data_table(ui);
             });
