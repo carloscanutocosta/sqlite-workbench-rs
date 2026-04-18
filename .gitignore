@@ -1,3 +1,4 @@
 /.claude
 /target
 dist/sqlite-workbench-rs-20260418-134319.exe
+settings.json
