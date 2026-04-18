@@ -1,0 +1,290 @@
+                              União Europeia
+                    Licença Pública da União Europeia v. 1.2
+                    EUPL © União Europeia 2007, 2016
+
+A presente Licença Pública da União Europeia (a «EUPL») aplica-se à Obra
+(conforme definida abaixo), fornecida nos termos da presente Licença. Qualquer
+utilização da Obra que não seja autorizada pela presente Licença é proibida (na
+medida em que tal utilização seja abrangida por um direito do titular dos
+direitos de autor da Obra).
+
+A Obra é fornecida nos termos da presente Licença quando o Licenciante (conforme
+definido abaixo) colocar a seguinte notificação imediatamente a seguir ao aviso
+de direitos de autor da Obra:
+
+        Licenciado ao abrigo da EUPL
+
+ou tiver expresso por qualquer outro meio a sua vontade de licenciar ao abrigo
+da EUPL.
+
+1. Definições
+
+Para efeitos da presente Licença, entende-se por:
+
+- «Licença»: a presente Licença.
+- «Obra Original»: a obra ou o programa de computador distribuído ou comunicado
+  pelo Licenciante ao abrigo da presente Licença, disponível como Código Fonte e
+  também como Código Executável, consoante o caso.
+- «Obras Derivadas»: as obras ou programas de computador que o Licenciado possa
+  criar com base na Obra Original ou nas respetivas modificações. A presente
+  Licença não define a extensão de modificação ou de dependência em relação à
+  Obra Original necessária para classificar uma obra como Obra Derivada; essa
+  extensão é determinada pela lei de direitos de autor aplicável no país
+  mencionado no Artigo 15.
+- «Obra»: a Obra Original ou as respetivas Obras Derivadas.
+- «Código Fonte»: a forma legível por humanos da Obra que é a mais conveniente
+  para ser estudada e modificada.
+- «Código Executável»: qualquer código que tenha geralmente sido compilado e que
+  se destine a ser interpretado por um computador como um programa.
+- «Licenciante»: a pessoa singular ou coletiva que distribui ou comunica a Obra
+  ao abrigo da Licença.
+- «Contribuinte(s)»: qualquer pessoa singular ou coletiva que modifique a Obra
+  ao abrigo da Licença, ou que contribua de outro modo para a criação de uma
+  Obra Derivada.
+- «Licenciado» ou «V.ª Ex.ª»: qualquer pessoa singular ou coletiva que faça
+  alguma utilização da Obra nos termos da Licença.
+- «Distribuição» ou «Comunicação»: qualquer ato de venda, doação, empréstimo,
+  aluguer, distribuição, comunicação, transmissão, ou disponibilização por
+  qualquer outro meio, online ou offline, de cópias da Obra ou a prestação de
+  acesso às suas funcionalidades essenciais a qualquer outra pessoa singular ou
+  coletiva.
+
+2. Âmbito dos direitos concedidos pela Licença
+
+O Licenciante concede-lhe uma licença mundial, isenta de royalties, não
+exclusiva, sublicenciável para fazer o seguinte, durante a vigência dos direitos
+de autor sobre a Obra Original:
+
+- utilizar a Obra em quaisquer circunstâncias e para qualquer utilização,
+- reproduzir a Obra,
+- modificar a Obra e criar Obras Derivadas com base na Obra,
+- comunicar ao público, incluindo o direito de disponibilizar ou exibir a Obra
+  ou cópias da mesma ao público e de a executar publicamente, consoante o caso,
+- distribuir a Obra ou cópias da mesma,
+- emprestar e alugar a Obra ou cópias da mesma,
+- sublicenciar direitos sobre a Obra ou cópias da mesma.
+
+Esses direitos podem ser exercidos em qualquer meio de comunicação, suporte e
+formato, conhecido ou por inventar, na medida em que o permitir a lei aplicável.
+
+Nos países onde se aplicam direitos morais, o Licenciante renuncia ao seu
+direito de exercer o seu direito moral na medida permitida por lei para que a
+licença dos direitos patrimoniais acima enumerados produza todos os seus efeitos.
+
+O Licenciante concede ao Licenciado direitos de utilização isentos de royalties,
+não exclusivos, sobre quaisquer patentes detidas pelo Licenciante, na medida
+necessária para fazer uso dos direitos sobre a Obra concedidos pela presente
+Licença.
+
+3. Comunicação do Código Fonte
+
+O Licenciante pode fornecer a Obra no respetivo Código Fonte ou como Código
+Executável. Se a Obra for fornecida como Código Executável, o Licenciante
+disponibiliza adicionalmente uma cópia legível por máquina do Código Fonte da
+Obra com cada cópia da Obra que o Licenciante distribui, ou indica, numa
+notificação a seguir ao aviso de direitos de autor aposto à Obra, um repositório
+onde o Código Fonte seja facilmente e gratuitamente acessível enquanto o
+Licenciante continuar a distribuir ou comunicar a Obra.
+
+4. Limitações dos direitos de autor
+
+Nada na presente Licença tem por objetivo privar o Licenciado dos benefícios
+decorrentes de qualquer exceção ou limitação aos direitos exclusivos dos titulares
+de direitos sobre a Obra, do esgotamento desses direitos ou de outras limitações
+aplicáveis aos mesmos.
+
+5. Obrigações do Licenciado
+
+A concessão dos direitos mencionados fica sujeita a algumas restrições e
+obrigações impostas ao Licenciado. Essas obrigações são as seguintes:
+
+Direito de atribuição: O Licenciado deve manter intactos todos os avisos de
+direitos de autor, de patente ou de marcas comerciais e todos os avisos que se
+refiram à Licença e ao aviso de exclusão de garantias. O Licenciado deve incluir
+uma cópia desses avisos e uma cópia da Licença com cada cópia da Obra que
+distribua ou comunique. O Licenciado deve fazer com que qualquer Obra Derivada
+ostente avisos proeminentes indicando que a Obra foi modificada e a data de
+modificação.
+
+Cláusula copyleft: Se o Licenciado distribuir ou comunicar cópias das Obras
+Originais ou Obras Derivadas, essa Distribuição ou Comunicação será feita nos
+termos da presente Licença ou de uma versão ulterior da presente Licença, salvo
+se a Obra Original for expressamente distribuída apenas ao abrigo desta versão
+da Licença — por exemplo, comunicando «Apenas EUPL v. 1.2». O Licenciado (que
+se torna Licenciante) não pode oferecer ou impor termos ou condições adicionais
+sobre a Obra ou Obra Derivada que alterem ou restrinjam os termos da Licença.
+
+Cláusula de compatibilidade: Se o Licenciado distribuir ou comunicar Obras
+Derivadas ou cópias das mesmas baseadas simultaneamente na Obra e noutra obra
+licenciada ao abrigo de uma Licença Compatível, essa Distribuição ou
+Comunicação pode ser feita nos termos dessa Licença Compatível. Para efeitos
+desta cláusula, «Licença Compatível» refere-se às licenças enumeradas no apêndice
+da presente Licença. Caso as obrigações do Licenciado ao abrigo da Licença
+Compatível entrem em conflito com as suas obrigações ao abrigo da presente
+Licença, prevalecerão as obrigações estabelecidas na Licença Compatível.
+
+Disponibilização do Código Fonte: Ao distribuir ou comunicar cópias da Obra, o
+Licenciado disponibilizará uma cópia legível por máquina do Código Fonte ou
+indicará um repositório onde esse Código Fonte será fácil e gratuitamente
+acessível enquanto o Licenciado continuar a distribuir ou comunicar a Obra.
+
+Proteção jurídica: A presente Licença não concede permissão para utilizar nomes
+comerciais, marcas comerciais, marcas de serviço ou nomes do Licenciante, exceto
+quando necessário para uma utilização razoável e habitual na descrição da origem
+da Obra e na reprodução do teor do aviso de direitos de autor.
+
+6. Cadeia de autoria
+
+O Licenciante original garante que os direitos de autor sobre a Obra Original
+concedidos ao abrigo da presente Licença lhe pertencem ou lhe foram licenciados
+e que tem competência e autoridade para conceder a Licença.
+
+Cada Contribuinte garante que os direitos de autor sobre as modificações que
+introduz na Obra lhe pertencem ou lhe foram licenciados e que tem competência e
+autoridade para conceder a Licença.
+
+Cada vez que V.ª Ex.ª aceita a Licença, o Licenciante original e os Contribuintes
+subsequentes concedem-lhe uma licença sobre as respetivas contribuições para a
+Obra, nos termos da presente Licença.
+
+7. Exclusão de garantia
+
+A Obra é um trabalho em curso, continuamente melhorado por numerosos
+contribuintes. Não é um trabalho acabado e pode, portanto, conter defeitos ou
+problemas inerentes a este tipo de desenvolvimento de programas de computador.
+
+Por esse motivo, a Obra é fornecida ao abrigo da Licença numa base «tal como
+está» e sem garantias de qualquer tipo relativamente à Obra, incluindo, sem
+limitação, a comercialização, a adequação a um fim específico, a ausência de
+defeitos ou erros, a exatidão, a não violação de direitos de propriedade
+intelectual que não os direitos de autor conforme declarados no Artigo 6 da
+presente Licença.
+
+Esta exclusão de garantia é parte essencial da Licença e uma condição para a
+concessão de quaisquer direitos sobre a Obra.
+
+8. Exclusão de responsabilidade
+
+Exceto nos casos de dolo ou danos causados diretamente a pessoas singulares, o
+Licenciante não será em caso algum responsável por quaisquer danos diretos ou
+indiretos, materiais ou morais, de qualquer tipo, resultantes da Licença ou da
+utilização da Obra, incluindo, sem limitação, danos por perda de clientela,
+paragem de trabalho, falha ou avaria informática, perda de dados ou qualquer
+prejuízo comercial, mesmo que o Licenciante tenha sido avisado da possibilidade
+de tais danos. Contudo, o Licenciante será responsável ao abrigo das normas
+legais de responsabilidade por produtos na medida em que tais normas se apliquem
+à Obra.
+
+9. Acordos adicionais
+
+Ao distribuir a Obra, V.ª Ex.ª pode optar por celebrar um acordo adicional que
+defina obrigações ou serviços compatíveis com a presente Licença. Contudo, se
+aceitar obrigações, V.ª Ex.ª só pode agir em seu próprio nome e sob a sua
+exclusiva responsabilidade, não em nome do Licenciante original ou de qualquer
+outro Contribuinte, e apenas se concordar em isentar, defender e não prejudicar
+cada Contribuinte de qualquer responsabilidade incorrida por, ou reclamações
+intentadas contra esse Contribuinte pelo facto de V.ª Ex.ª ter aceite qualquer
+garantia ou responsabilidade adicional.
+
+10. Aceitação da Licença
+
+As disposições da presente Licença podem ser aceites através de um clique no
+ícone «Concordo» colocado na parte inferior de uma janela que exibe o texto da
+presente Licença ou por afirmação do consentimento de qualquer outra forma
+semelhante, de acordo com as normas da lei aplicável. Ao clicar nesse ícone,
+V.ª Ex.ª indica a sua clara e irrevogável aceitação da presente Licença e de
+todos os seus termos e condições.
+
+Do mesmo modo, V.ª Ex.ª aceita irrevogavelmente a presente Licença e todos os
+seus termos e condições pelo exercício de quaisquer direitos concedidos no
+âmbito do Artigo 2 da presente Licença, como a utilização da Obra, a criação
+por V.ª Ex.ª de uma Obra Derivada ou a Distribuição ou Comunicação por V.ª Ex.ª
+da Obra ou de cópias da mesma.
+
+11. Informação ao público
+
+Em caso de qualquer Distribuição ou Comunicação da Obra por meios de comunicação
+eletrónica por V.ª Ex.ª (por exemplo, oferecendo o descarregamento da Obra a
+partir de um local remoto), o canal de distribuição ou meio de comunicação (por
+exemplo, um sítio web) deve facultar ao público, pelo menos, as informações
+exigidas pela lei aplicável relativamente ao Licenciante, à Licença e à forma
+como a mesma pode ser acedida, celebrada, armazenada e reproduzida pelo
+Licenciado.
+
+12. Cessação da Licença
+
+A Licença e os direitos por ela concedidos cessarão automaticamente em caso de
+violação pelo Licenciado dos termos da Licença.
+
+Essa cessação não porá termo às licenças de qualquer pessoa que tenha recebido
+a Obra do Licenciado ao abrigo da Licença, desde que essa pessoa continue a
+cumprir integralmente a Licença.
+
+13. Disposições diversas
+
+Sem prejuízo do disposto no Artigo 9, a Licença representa o acordo completo
+entre as Partes relativamente à Obra.
+
+Se alguma disposição da Licença for inválida ou não puder ser executada ao abrigo
+da lei aplicável, tal não afetará a validade ou a exequibilidade da Licença no
+seu conjunto. Essa disposição será interpretada ou reformulada de modo a torná-la
+válida e executável.
+
+A Comissão Europeia pode publicar outras versões linguísticas ou novas versões
+desta Licença ou versões atualizadas do Apêndice, na medida em que tal seja
+necessário e razoável, sem reduzir o âmbito dos direitos concedidos pela
+Licença. As novas versões da Licença serão publicadas com um número de versão
+único.
+
+Todas as versões linguísticas da presente Licença, aprovadas pela Comissão
+Europeia, têm idêntico valor. As Partes podem tirar partido da versão linguística
+da sua escolha.
+
+14. Jurisdição
+
+Sem prejuízo de acordo específico entre as partes,
+
+- qualquer litígio resultante da interpretação da presente Licença que surja
+  entre as instituições, órgãos e organismos da União Europeia, enquanto
+  Licenciantes, e qualquer Licenciado, ficará sujeito à jurisdição do Tribunal
+  de Justiça da União Europeia, nos termos do Artigo 272 do Tratado sobre o
+  Funcionamento da União Europeia,
+
+- qualquer litígio entre outras partes resultante da interpretação da presente
+  Licença ficará sujeito à jurisdição exclusiva do tribunal competente do lugar
+  onde o Licenciante tem sede ou exerce a sua atividade principal.
+
+15. Lei aplicável
+
+Sem prejuízo de acordo específico entre as partes,
+
+- a presente Licença rege-se pela lei do Estado-Membro da União Europeia em que
+  o Licenciante tem sede, reside ou tem o seu domicílio estatutário,
+
+- a presente Licença rege-se pela lei belga se o Licenciante não tiver sede,
+  residência ou domicílio estatutário num Estado-Membro da União Europeia.
+
+Apêndice
+
+«Licenças Compatíveis» nos termos do Artigo 5 da EUPL:
+
+- GNU General Public License (GPL) v. 2, v. 3
+- GNU Affero General Public License (AGPL) v. 3
+- Open Software License (OSL) v. 2.1, v. 3.0
+- Eclipse Public License (EPL) v. 1.0
+- CeCILL v. 2.0, v. 2.1
+- Mozilla Public Licence (MPL) v. 2
+- GNU Lesser General Public Licence (LGPL) v. 2.1, v. 3
+- Creative Commons Attribution-ShareAlike v. 3.0 Unported (CC BY-SA 3.0) para
+  obras que não sejam programas de computador
+- European Union Public Licence (EUPL) v. 1.1, v. 1.2
+- Québec Free and Open-Source Licence — Reciprocal (LiLiQ-R) ou Strong
+  Reciprocal (LiLiQ-R+)
+
+A Comissão Europeia pode atualizar o presente Apêndice com versões ulteriores
+das licenças acima referidas sem produzir uma nova versão da EUPL, desde que
+essas versões concedam os direitos previstos no Artigo 2 da presente Licença e
+protejam o Código Fonte coberto de apropriação exclusiva.
+
+Todas as outras alterações ou aditamentos ao presente Apêndice requerem a
+produção de uma nova versão da EUPL.

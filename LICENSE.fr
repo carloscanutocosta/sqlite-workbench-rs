@@ -1,0 +1,293 @@
+                              Union européenne
+                    Licence Publique de l'Union Européenne v. 1.2
+                    EUPL © Union européenne 2007, 2016
+
+La présente Licence Publique de l'Union Européenne («EUPL») s'applique à toute
+Œuvre (telle que définie ci-après) fournie aux conditions de la présente Licence.
+Toute utilisation de l'Œuvre autre que celle autorisée en vertu de la présente
+Licence est interdite (dans la mesure où cette utilisation est couverte par un
+droit du titulaire des droits d'auteur sur l'Œuvre).
+
+L'Œuvre est fournie aux conditions de la présente Licence quand le Concédant (tel
+que défini ci-après) a placé la mention suivante immédiatement après la mention
+relative aux droits d'auteur sur l'Œuvre:
+
+        Licencié sous EUPL
+
+ou a exprimé par tout autre moyen sa volonté de concéder une licence sous EUPL.
+
+1. Définitions
+
+Dans la présente Licence, on entend par:
+
+- «Licence»: la présente Licence.
+- «Œuvre originale»: l'œuvre ou le logiciel distribué ou communiqué par le
+  Concédant en vertu de la présente Licence, disponible en tant que Code Source
+  et également en tant que Code Exécutable, selon le cas.
+- «Œuvres dérivées»: les œuvres ou logiciels pouvant être créés par le Licencié
+  sur la base de l'Œuvre originale ou des modifications qui y ont été apportées.
+  La présente Licence ne définit pas le niveau de modification ou de dépendance
+  par rapport à l'Œuvre originale requis pour qualifier une œuvre d'Œuvre dérivée;
+  ce niveau est déterminé par la législation sur le droit d'auteur applicable dans
+  le pays mentionné à l'article 15.
+- «Œuvre»: l'Œuvre originale ou les Œuvres dérivées qui en sont issues.
+- «Code Source»: la forme de l'Œuvre lisible par l'être humain qui se prête le
+  plus aisément à l'étude et aux modifications.
+- «Code Exécutable»: le code sous forme compilée, généralement destiné à être
+  interprété comme un programme par un ordinateur.
+- «Concédant»: la personne physique ou morale qui distribue ou communique l'Œuvre
+  sous couvert de la Licence.
+- «Contributeur(s)»: toute personne physique ou morale qui modifie l'Œuvre sous
+  couvert de la Licence, ou qui contribue d'une autre manière à la création d'une
+  Œuvre dérivée.
+- «Licencié» ou «Vous»: toute personne physique ou morale qui utilise l'Œuvre
+  conformément aux conditions de la Licence.
+- «Distribution» ou «Communication»: tout acte de vente, don, prêt, location,
+  distribution, communication, transmission ou mise à disposition, en ligne ou
+  hors ligne, de copies de l'Œuvre, et tout acte donnant accès à ses fonctions
+  essentielles à toute autre personne physique ou morale.
+
+2. Étendue des droits accordés par la Licence
+
+Le Concédant vous concède une licence mondiale, libre de redevances, non
+exclusive et pouvant faire l'objet de sous-licences, pour exercer les droits
+suivants sur l'Œuvre, pendant toute la durée des droits d'auteur afférents à
+l'Œuvre originale:
+
+- utiliser l'Œuvre en toute circonstance et pour tout usage,
+- reproduire l'Œuvre,
+- modifier l'Œuvre et créer des Œuvres dérivées sur la base de l'Œuvre,
+- communiquer au public, notamment le droit de mettre à disposition du public
+  l'Œuvre ou des copies de l'Œuvre et d'en présenter publiquement les prestations,
+- distribuer l'Œuvre ou des copies de celle-ci,
+- prêter ou louer l'Œuvre ou des copies de celle-ci,
+- accorder en sous-licence des droits sur l'Œuvre ou des copies de celle-ci.
+
+Ces droits peuvent être exercés sur tout support, par tout moyen et sous toute
+forme, actuelle ou future, dans la mesure permise par la loi applicable.
+
+Dans les pays où des droits moraux s'appliquent, le Concédant renonce à son droit
+d'exercer son droit moral dans la mesure permise par la loi pour que la licence
+des droits patrimoniaux énumérés ci-dessus produise ses effets.
+
+Le Concédant concède au Licencié une licence non exclusive, libre de redevances
+d'utilisation sur les brevets détenus par le Concédant, dans la mesure nécessaire
+à l'exercice des droits accordés sur l'Œuvre en vertu de la présente Licence.
+
+3. Communication du Code Source
+
+Le Concédant peut fournir l'Œuvre sous forme de Code Source ou de Code
+Exécutable. Si l'Œuvre est fournie sous forme de Code Exécutable, le Concédant
+mettra en outre à disposition une copie électronique du Code Source de l'Œuvre
+avec chaque copie de l'Œuvre qu'il distribue, ou indiquera, dans une mention
+faisant suite à la mention relative aux droits d'auteur jointe à l'Œuvre, un
+dépôt dans lequel le Code Source sera facilement et librement accessible aussi
+longtemps que le Concédant continuera à distribuer ou communiquer l'Œuvre.
+
+4. Limitations du droit d'auteur
+
+La présente Licence n'a pas pour objet de priver le Licencié des avantages
+résultant de toute exception ou limitation aux droits exclusifs des titulaires de
+droits sur l'Œuvre, de l'épuisement de ces droits ou d'autres limitations qui
+leur sont applicables.
+
+5. Obligations du Licencié
+
+La concession des droits susmentionnés est soumise à des restrictions et
+obligations pour le Licencié. Ces obligations sont les suivantes:
+
+Droit de paternité: Le Licencié doit laisser intactes toutes les mentions
+relatives aux droits d'auteur, aux brevets ou aux marques et toutes les mentions
+faisant référence à la Licence et à l'exclusion de garantie. Le Licencié doit
+joindre une copie de ces mentions et une copie de la Licence à chaque copie de
+l'Œuvre qu'il distribue ou communique. Le Licencié veillera à ce que toute Œuvre
+dérivée soit assortie d'une mention bien visible indiquant que l'Œuvre a été
+modifiée et la date de cette modification.
+
+Clause copyleft: Si le Licencié distribue ou communique des copies des Œuvres
+originales ou des Œuvres dérivées, cette Distribution ou Communication se fera
+dans les conditions de la présente Licence ou d'une version ultérieure, à moins
+que l'Œuvre originale ne soit expressément distribuée uniquement sous cette
+version de la Licence — par exemple «EUPL v. 1.2 seulement». Le Licencié (qui
+devient Concédant) ne peut pas offrir ou imposer des conditions supplémentaires
+sur l'Œuvre ou sur l'Œuvre dérivée qui altèrent ou restreignent les conditions
+de la Licence.
+
+Clause de compatibilité: Si le Licencié Distribue ou Communique des Œuvres
+dérivées ou des copies de telles Œuvres basées à la fois sur l'Œuvre et sur une
+autre œuvre concédée sous une Licence Compatible, cette Distribution ou
+Communication peut se faire dans les conditions de la Licence Compatible. Dans
+le cadre de cette clause, «Licence Compatible» désigne les licences figurant dans
+l'appendice de la présente Licence. En cas de conflit entre les obligations du
+Licencié au titre de la Licence Compatible et celles qui lui incombent au titre
+de la présente Licence, les premières prévalent.
+
+Fourniture du Code Source: En distribuant ou en communiquant des copies de
+l'Œuvre, le Licencié fournit une copie lisible par machine du Code Source ou
+indique l'emplacement d'un dépôt dans lequel ce Code Source est facilement et
+librement accessible aussi longtemps que le Licencié continue à distribuer ou
+communiquer l'Œuvre.
+
+Protection juridique: La présente Licence ne donne pas le droit d'utiliser les
+noms commerciaux, les marques commerciales, les marques de service ou les noms
+du Concédant, sauf dans la mesure nécessaire à une utilisation raisonnable et
+habituelle pour décrire l'origine de l'Œuvre et reproduire la teneur de la
+mention relative aux droits d'auteur.
+
+6. Chaîne d'auteurs
+
+Le Concédant original garantit que les droits d'auteur sur l'Œuvre originale
+concédés en vertu de la présente Licence lui appartiennent ou lui ont été concédés
+sous licence et qu'il dispose des droits et de l'autorité nécessaires pour
+accorder la Licence.
+
+Chaque Contributeur garantit que les droits d'auteur sur les modifications qu'il
+apporte à l'Œuvre lui appartiennent ou lui ont été concédés sous licence et qu'il
+dispose des droits et de l'autorité nécessaires pour accorder la Licence.
+
+Chaque fois que Vous acceptez la Licence, le Concédant original et les
+Contributeurs successifs Vous accordent une licence sur leurs contributions à
+l'Œuvre, dans les conditions de la présente Licence.
+
+7. Exclusion de garantie
+
+L'Œuvre est un travail en cours, amélioré de manière continue par de nombreux
+contributeurs. Elle n'est pas achevée et peut donc contenir des défauts ou des
+bogues inhérents à ce type de développement.
+
+Pour cette raison, l'Œuvre est fournie sous couvert de la Licence en l'état et
+sans garantie d'aucune sorte concernant l'Œuvre, notamment sans garantie de
+valeur marchande, d'adéquation à un objet particulier, d'absence de défauts ou
+d'erreurs, d'exactitude, de non-violation de droits de propriété intellectuelle
+autres que les droits d'auteur visés à l'article 6 de la présente Licence.
+
+Cette exclusion de garantie est une partie essentielle de la Licence et une
+condition de l'octroi de tout droit sur l'Œuvre.
+
+8. Exclusion de responsabilité
+
+Sauf dans les cas de faute intentionnelle ou de dommages causés directement à des
+personnes physiques, le Concédant ne sera en aucun cas tenu responsable des
+dommages directs ou indirects, matériels ou moraux, de quelque nature que ce soit,
+résultant de la Licence ou de l'utilisation de l'Œuvre, notamment des dommages
+causés par des atteintes à la réputation, l'interruption de travail, une
+défaillance ou un mauvais fonctionnement d'un ordinateur, la perte de données ou
+tout préjudice commercial, y compris si le Concédant a été informé de la
+possibilité de tels dommages. Cependant, le Concédant sera tenu responsable au
+titre des règles légales relatives à la responsabilité du fait des produits dans
+la mesure où celles-ci s'appliquent à l'Œuvre.
+
+9. Accords additionnels
+
+Lors de la distribution de l'Œuvre, Vous pouvez choisir de conclure un accord
+additionnel, définissant des obligations ou des services compatibles avec la
+présente Licence. Cependant, si Vous acceptez des obligations, Vous pouvez agir
+uniquement en votre propre nom et sous votre seule responsabilité, non pas au
+nom du Concédant original ou de tout autre Contributeur, et uniquement si Vous
+acceptez de dédommager, de défendre et de mettre hors de cause chaque Contributeur
+en cas de responsabilité ou de demandes de droits invoquées contre ce Contributeur
+du fait que vous avez accepté une garantie ou une responsabilité additionnelle.
+
+10. Acceptation de la Licence
+
+Les dispositions de la présente Licence peuvent être acceptées en cliquant sur
+l'icône «J'accepte» qui apparaît au bas d'une fenêtre affichant le texte de la
+présente Licence, ou par toute autre manifestation de consentement similaire,
+conformément aux règles de droit applicable. En cliquant sur cette icône, Vous
+marquez votre acceptation sans équivoque de la présente Licence et de toutes ses
+conditions.
+
+De même, Vous acceptez la présente Licence et toutes ses conditions de manière
+irrévocable en exerçant les droits qui Vous sont concédés par l'article 2 de la
+présente Licence, notamment l'utilisation de l'Œuvre, la création par Vous d'une
+Œuvre dérivée ou la Distribution ou la Communication par Vous de l'Œuvre ou de
+copies de celle-ci.
+
+11. Information du public
+
+En cas de Distribution ou de Communication électronique de l'Œuvre par Vous (par
+exemple en vous proposant de télécharger l'Œuvre depuis un site distant), le
+canal de distribution ou le support (par exemple un site internet) devra au moins
+mettre à la disposition du public les informations requises par le droit applicable
+en ce qui concerne le Concédant, la Licence et la façon dont elle peut être rendue
+accessible, conclue, stockée et reproduite par le Licencié.
+
+12. Caducité de la Licence
+
+La Licence et les droits accordés en vertu de ses conditions prendront fin
+automatiquement dès lors que le Licencié manquera à ses obligations.
+
+Cette caducité ne mettra pas fin aux licences des personnes ayant reçu l'Œuvre
+du Licencié en vertu de la Licence, pour autant que ces personnes respectent
+pleinement la Licence.
+
+13. Dispositions diverses
+
+Sans préjudice de l'article 9 ci-dessus, la Licence représente l'accord complet
+entre les Parties concernant l'Œuvre.
+
+Si une disposition de la Licence est nulle ou inopposable en vertu du droit
+applicable, cela n'affecte pas la validité ou le caractère exécutoire de la
+Licence dans son ensemble. Une telle disposition sera interprétée ou remaniée
+de manière à la rendre valide et exécutoire.
+
+La Commission européenne pourra publier d'autres versions linguistiques ou de
+nouvelles versions de la présente Licence ou des versions mises à jour de
+l'appendice, dans la mesure du nécessaire et du raisonnable, sans réduire la
+portée des droits accordés par la Licence. Les nouvelles versions seront publiées
+avec un numéro de version unique.
+
+Toutes les versions linguistiques de la présente Licence approuvées par la
+Commission européenne ont valeur identique. Les Parties peuvent se prévaloir de
+la version linguistique de leur choix.
+
+14. Juridiction compétente
+
+Sans préjudice d'un accord particulier entre les parties,
+
+- tout litige résultant de l'interprétation de la présente Licence survenant entre
+  les institutions, organes, bureaux et agences de l'Union européenne, en tant que
+  Concédants, et tout Licencié, sera soumis à la compétence de la Cour de justice
+  de l'Union européenne telle qu'énoncée à l'article 272 du traité sur le
+  fonctionnement de l'Union européenne,
+
+- tout litige survenant entre d'autres parties et résultant de l'interprétation
+  de la présente Licence sera soumis à la juridiction exclusive du tribunal
+  compétent du lieu où le Concédant a son siège ou exerce son activité principale.
+
+15. Droit applicable
+
+Sans préjudice d'un accord particulier entre les parties,
+
+- la présente Licence est régie par le droit de l'État membre de l'Union
+  européenne où le Concédant a son siège, réside ou a son siège statutaire,
+
+- la présente Licence est régie par le droit belge si le Concédant n'a pas de
+  siège, de résidence ou de siège statutaire dans un État membre de l'Union
+  européenne.
+
+Appendice
+
+Les «Licences compatibles» aux fins de l'article 5 de l'EUPL sont:
+
+- GNU General Public License (GPL) v. 2, v. 3
+- GNU Affero General Public License (AGPL) v. 3
+- Open Software License (OSL) v. 2.1, v. 3.0
+- Eclipse Public License (EPL) v. 1.0
+- CeCILL v. 2.0, v. 2.1
+- Mozilla Public Licence (MPL) v. 2
+- GNU Lesser General Public Licence (LGPL) v. 2.1, v. 3
+- Creative Commons Attribution-ShareAlike v. 3.0 Unported (CC BY-SA 3.0) pour
+  les œuvres autres que les logiciels
+- European Union Public Licence (EUPL) v. 1.1, v. 1.2
+- Québec Free and Open-Source Licence — Réciproque (LiLiQ-R) ou Forte Réciproque
+  (LiLiQ-R+)
+
+La Commission européenne pourra mettre à jour le présent appendice afin de tenir
+compte des versions ultérieures des licences ci-dessus, sans produire de nouvelle
+version de l'EUPL, dans la mesure où ces versions accordent les droits visés à
+l'article 2 de la présente Licence et protègent le Code Source contre toute
+appropriation exclusive.
+
+Tout autre changement ou ajout au présent appendice requiert la production d'une
+nouvelle version de l'EUPL.
