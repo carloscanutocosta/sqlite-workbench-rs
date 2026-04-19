@@ -4,11 +4,30 @@
 #  Destino: backups/<timestamp>/
 # ============================================================
 
+param (
+    [string]$Path = "D:\Backup\sqlite_workbench"
+)
+
 $ErrorActionPreference = "Stop"
 $repoRoot   = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
-$backupsDir = Join-Path $repoRoot "backups"
+$backupsDir = $Path
 $ts         = Get-Date -Format "yyyyMMdd-HHmmss"
 $destDir    = Join-Path $backupsDir $ts
+
+# Validar se o disco/caminho está acessível
+$drive = Split-Path $backupsDir -Qualifier
+if ($drive -and -not (Test-Path $drive)) {
+    Write-Host "ERRO: O disco '$drive' não está acessível ou não existe." -ForegroundColor Red
+    Write-Host "Certifica-te de que a unidade está ligada e tenta novamente." -ForegroundColor Gray
+    Write-Host ""
+    exit 1
+}
+
+# Garantir que a pasta base de backups existe
+if (-not (Test-Path $backupsDir)) {
+    New-Item -ItemType Directory -Path $backupsDir -Force | Out-Null
+    Write-Host ">>> Pasta base de backup criada: $backupsDir" -ForegroundColor Gray
+}
 
 Set-Location $repoRoot
 
@@ -62,6 +81,18 @@ if ($old) {
     Write-Host ""
     Write-Host "  Removidos $($old.Count) backup(s) com mais de 30 dias." -ForegroundColor DarkGray
 }
+
+# Rodar log se exceder 1MB e registar a operação
+$logFile = Join-Path $backupsDir "operations.log"
+if (Test-Path $logFile) {
+    if ((Get-Item $logFile).Length -gt 1MB) {
+        $oldLog = Join-Path $backupsDir "operations.old.log"
+        Move-Item -Path $logFile -Destination $oldLog -Force
+    }
+}
+
+$logEntry = "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] [BACKUP] Sucesso: $copied ficheiros guardados em $ts por $env:USERNAME"
+Add-Content -Path $logFile -Value $logEntry -Encoding UTF8
 
 Write-Host ""
 Write-Host "------------------------------------------------" -ForegroundColor Green

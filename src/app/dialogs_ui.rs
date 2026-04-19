@@ -293,6 +293,10 @@ impl App {
                 ui.add_space(8.0);
 
                 ui.vertical_centered(|ui| {
+                    if let Some(ref texture) = self.about_icon {
+                        ui.add(egui::Image::new((texture.id(), egui::Vec2::new(96.0, 96.0))));
+                        ui.add_space(6.0);
+                    }
                     ui.label(
                         RichText::new("SQLite Workbench")
                             .size(22.0)

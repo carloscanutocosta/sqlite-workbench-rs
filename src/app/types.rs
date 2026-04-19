@@ -115,6 +115,7 @@ pub struct App {
     // Status
     pub(super) toast: Option<(String, f64)>,
     pub(super) show_about: bool,
+    pub(super) about_icon: Option<egui::TextureHandle>,
 
     // Pending async data load
     pub(super) pending_load:

@@ -22,6 +22,19 @@ impl App {
         cc.egui_ctx.set_visuals(visuals);
         cc.egui_ctx.set_fonts(egui::FontDefinitions::default());
 
+        let about_icon = {
+            let bytes = include_bytes!("../../Assets/Icons/icon.png");
+            image::load_from_memory(bytes).ok().map(|img| {
+                let rgba = img.into_rgba8();
+                let (w, h) = rgba.dimensions();
+                let color_image = egui::ColorImage::from_rgba_unmultiplied(
+                    [w as usize, h as usize],
+                    &rgba,
+                );
+                cc.egui_ctx.load_texture("about_icon", color_image, egui::TextureOptions::LINEAR)
+            })
+        };
+
         let favorites_path = "favorites.json".to_string();
         let history_path = "history.json".to_string();
 
@@ -79,6 +92,7 @@ impl App {
             sidebar_ctx_table: None,
             toast: None,
             show_about: false,
+            about_icon,
             pending_load: None,
             pending_page: 1,
             pending_total: None,

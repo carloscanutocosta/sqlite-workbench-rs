@@ -4,9 +4,13 @@
 #  Faz backup automático do estado atual antes de restaurar.
 # ============================================================
 
+param (
+    [string]$Path = "D:\Backup\sqlite_workbench"
+)
+
 $ErrorActionPreference = "Stop"
 $repoRoot   = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
-$backupsDir = Join-Path $repoRoot "backups"
+$backupsDir = $Path
 
 Set-Location $repoRoot
 
@@ -16,9 +20,17 @@ Write-Host "  SQLite Workbench RS — RESTORE" -ForegroundColor Cyan
 Write-Host "================================================" -ForegroundColor Cyan
 Write-Host ""
 
-# Verificar se existem backups
+# Validar se o disco/caminho está acessível
+$drive = Split-Path $backupsDir -Qualifier
+if ($drive -and -not (Test-Path $drive)) {
+    Write-Host "ERRO: O disco '$drive' não está acessível ou não existe." -ForegroundColor Red
+    Write-Host "Certifica-te de que a unidade está ligada." -ForegroundColor Gray
+    exit 1
+}
+
 if (-not (Test-Path $backupsDir)) {
-    Write-Host "  Nenhum backup encontrado em: $backupsDir" -ForegroundColor Red
+    New-Item -ItemType Directory -Path $backupsDir -Force | Out-Null
+    Write-Host "  Caminho de backup criado (vazio): $backupsDir" -ForegroundColor Gray
     exit 0
 }
 
@@ -80,7 +92,7 @@ if ($confirm -notmatch "^[Ss]$") {
 # Fazer backup automático do estado atual antes de restaurar
 Write-Host ""
 Write-Host ">>> A fazer backup de segurança do estado atual..." -ForegroundColor Yellow
-& (Join-Path $PSScriptRoot "backup.ps1")
+& (Join-Path $PSScriptRoot "backup.ps1") -Path $backupsDir
 
 # Restaurar ficheiros
 Write-Host ""
@@ -110,6 +122,18 @@ if (Test-Path $srcExe) {
     Write-Host "  [OK]  Binário release restaurado" -ForegroundColor Green
     $restored++
 }
+
+# Rodar log se exceder 1MB e registar a operação
+$logFile = Join-Path $backupsDir "operations.log"
+if (Test-Path $logFile) {
+    if ((Get-Item $logFile).Length -gt 1MB) {
+        $oldLog = Join-Path $backupsDir "operations.old.log"
+        Move-Item -Path $logFile -Destination $oldLog -Force
+    }
+}
+
+$logEntry = "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] [RESTORE] Sucesso: $restored ficheiros restaurados de $($selected.Name) por $env:USERNAME"
+Add-Content -Path $logFile -Value $logEntry -Encoding UTF8
 
 Write-Host ""
 Write-Host "------------------------------------------------" -ForegroundColor Green
