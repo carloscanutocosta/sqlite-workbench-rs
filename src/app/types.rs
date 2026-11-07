@@ -107,10 +107,13 @@ pub struct App {
     pub(super) edit_dialog: Option<EditRecordDialog>,
     pub(super) erd_window: Option<ErdWindow>,
     pub(super) input_dialog: Option<InputDialog>,
+    pub(super) confirm_drop_table: Option<String>,
+    pub(super) confirm_delete_record: Option<(String, i64)>,
 
     // Context menus
     pub(super) tree_ctx_row: Option<(i64, Vec<String>, egui::Pos2)>,
     pub(super) sidebar_ctx_table: Option<(String, egui::Pos2)>,
+    pub(super) ctx_menu_just_opened: bool,
 
     // Status
     pub(super) toast: Option<(String, f64)>,

@@ -179,6 +179,8 @@ impl App {
 
         if let Some((rowid, vals, pos)) = ctx_row {
             self.tree_ctx_row = Some((rowid, vals, pos));
+            self.sidebar_ctx_table = None;
+            self.ctx_menu_just_opened = true;
         }
     }
 }
