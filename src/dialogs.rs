@@ -370,6 +370,7 @@ impl ErdWindow {
                 box_rect,
                 4.0,
                 egui::Stroke::new(1.0, Color32::from_rgb(80, 80, 90)),
+                egui::StrokeKind::Middle,
             );
             painter.rect_filled(header_rect, 4.0, Color32::from_rgb(31, 83, 141));
 

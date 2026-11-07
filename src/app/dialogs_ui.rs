@@ -195,7 +195,7 @@ impl App {
     pub(super) fn show_context_menus(&mut self, ctx: &egui::Context) {
         // ── Sidebar context menu (right-click on table) ───────────────────────
         if let Some((ref table, pos)) = self.sidebar_ctx_table.clone() {
-            egui::Area::new(egui::Id::new("sidebar_ctx"))
+            egui::Area::new(egui::Id::unique("sidebar_ctx"))
                 .order(egui::Order::Tooltip)
                 .fixed_pos(pos)
                 .show(ctx, |ui| {
@@ -233,7 +233,7 @@ impl App {
                 });
 
             if ctx.input(|i| i.pointer.any_click()) {
-                let released_outside = !ctx.is_pointer_over_area();
+                let released_outside = !ctx.is_pointer_over_egui();
                 if released_outside {
                     self.sidebar_ctx_table = None;
                 }
@@ -242,7 +242,7 @@ impl App {
 
         // ── Data row context menu (edit / delete row) ─────────────────────────
         if let Some((rowid, ref vals, pos)) = self.tree_ctx_row.clone() {
-            egui::Area::new(egui::Id::new("tree_ctx"))
+            egui::Area::new(egui::Id::unique("tree_ctx"))
                 .order(egui::Order::Tooltip)
                 .fixed_pos(pos)
                 .show(ctx, |ui| {
@@ -270,7 +270,7 @@ impl App {
                     });
                 });
 
-            if ctx.input(|i| i.pointer.any_click()) && !ctx.is_pointer_over_area() {
+            if ctx.input(|i| i.pointer.any_click()) && !ctx.is_pointer_over_egui() {
                 self.tree_ctx_row = None;
             }
         }

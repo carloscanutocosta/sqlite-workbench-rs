@@ -5,8 +5,7 @@ use crate::localization::Language;
 use super::{App, AppTheme, SIDEBAR_WIDTH};
 
 impl eframe::App for App {
-    fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-        ctx.request_repaint();
+    fn logic(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
         self.poll_async();
 
         if let Some((_, ref mut t)) = self.toast {
@@ -15,31 +14,38 @@ impl eframe::App for App {
                 self.toast = None;
             }
         }
+    }
 
-        egui::TopBottomPanel::top("menu_bar").show(ctx, |ui| {
-            egui::menu::bar(ui, |ui| {
+    fn ui(&mut self, ui: &mut egui::Ui, _frame: &mut eframe::Frame) {
+        let ctx = &ui.ctx().clone();
+        ctx.request_repaint();
+
+        egui::Panel::top("menu_bar").show(ui, |ui| {
+            let menu_config = egui::containers::menu::MenuConfig::new()
+                .close_behavior(egui::PopupCloseBehavior::CloseOnClickOutside);
+            egui::MenuBar::new().config(menu_config).ui(ui, |ui| {
                 ui.menu_button(self.t().menu_file, |ui| {
                     if ui.button(self.t().new_db).clicked() {
                         self.create_new_db();
-                        ui.close_menu();
+                        ui.close();
                     }
                     if ui.button(self.t().load_db).clicked() {
                         self.open_db_file();
-                        ui.close_menu();
+                        ui.close();
                     }
                     if ui
                         .add_enabled(self.db.is_some(), egui::Button::new(self.t().import_csv))
                         .clicked()
                     {
                         self.open_import_csv();
-                        ui.close_menu();
+                        ui.close();
                     }
                     if ui
                         .add_enabled(self.db.is_some(), egui::Button::new(self.t().compact_db))
                         .clicked()
                     {
                         self.do_vacuum(ctx);
-                        ui.close_menu();
+                        ui.close();
                     }
                 });
                 ui.menu_button(self.t().menu_table, |ui| {
@@ -48,14 +54,14 @@ impl eframe::App for App {
                         .clicked()
                     {
                         self.open_create_table_dialog();
-                        ui.close_menu();
+                        ui.close();
                     }
                     if ui
                         .add_enabled(self.db.is_some(), egui::Button::new(self.t().erd_view))
                         .clicked()
                     {
                         self.open_erd();
-                        ui.close_menu();
+                        ui.close();
                     }
                 });
                 ui.menu_button(self.t().menu_settings, |ui| {
@@ -116,7 +122,7 @@ impl eframe::App for App {
             });
         });
 
-        egui::TopBottomPanel::bottom("footer").show(ctx, |ui| {
+        egui::Panel::bottom("footer").show(ui, |ui| {
             ui.horizontal(|ui| {
                 ui.label(
                     RichText::new(self.t().footer_author)
@@ -131,14 +137,14 @@ impl eframe::App for App {
             });
         });
 
-        egui::SidePanel::left("sidebar")
-            .exact_width(SIDEBAR_WIDTH)
+        egui::Panel::left("sidebar")
+            .exact_size(SIDEBAR_WIDTH)
             .resizable(false)
-            .show(ctx, |ui| {
+            .show(ui, |ui| {
                 self.show_sidebar(ui, ctx);
             });
 
-        egui::CentralPanel::default().show(ctx, |ui| {
+        egui::CentralPanel::default().show(ui, |ui| {
             self.show_main(ui, ctx);
         });
 
