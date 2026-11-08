@@ -235,7 +235,11 @@ impl EditRecordDialog {
     }
 
     /// Returns Some(pairs) when user clicks Save/Insert.
-    pub fn show(&mut self, ui: &mut Ui, t: &'static T) -> Option<Result<Vec<(String, String)>, ()>> {
+    pub fn show(
+        &mut self,
+        ui: &mut Ui,
+        t: &'static T,
+    ) -> Option<Result<Vec<(String, String)>, ()>> {
         let mut result = None;
 
         ScrollArea::vertical()
@@ -254,7 +258,11 @@ impl EditRecordDialog {
             if ui.button(t.cancel).clicked() {
                 result = Some(Err(()));
             }
-            let btn_label = if self.rowid.is_some() { t.save } else { t.insert };
+            let btn_label = if self.rowid.is_some() {
+                t.save
+            } else {
+                t.insert
+            };
             if ui.button(btn_label).clicked() {
                 let pairs: Vec<(String, String)> = self
                     .columns

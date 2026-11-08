@@ -218,7 +218,8 @@ pub const PT: T = T {
     menu_settings: "Definições",
     menu_about: "Acerca de",
     about_title: "Acerca de SQLite Workbench",
-    about_description: "Ferramenta de ambiente de trabalho para explorar e editar bases de dados SQLite.",
+    about_description:
+        "Ferramenta de ambiente de trabalho para explorar e editar bases de dados SQLite.",
     about_org: "Organização",
     about_author: "Autor",
     about_version: "Versão",

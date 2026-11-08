@@ -10,7 +10,7 @@ mod tabs;
 mod types;
 mod update;
 
-pub use types::{App, AppTheme, Settings};
 pub use types::{
-    ActiveTab, AsyncStatsResult, InputAction, InputDialog, SIDEBAR_WIDTH, SQL_KEYWORDS, StatsState,
+    ActiveTab, AsyncStatsResult, InputAction, InputDialog, StatsState, SIDEBAR_WIDTH, SQL_KEYWORDS,
 };
+pub use types::{App, AppTheme, Settings};

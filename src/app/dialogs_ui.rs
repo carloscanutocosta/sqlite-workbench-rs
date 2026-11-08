@@ -389,7 +389,9 @@ impl App {
     }
 
     pub(super) fn show_about_window(&mut self, ctx: &egui::Context) {
-        if !self.show_about { return; }
+        if !self.show_about {
+            return;
+        }
 
         let t = self.t();
         let mut open = self.show_about;
@@ -406,7 +408,10 @@ impl App {
 
                 ui.vertical_centered(|ui| {
                     if let Some(ref texture) = self.about_icon {
-                        ui.add(egui::Image::new((texture.id(), egui::Vec2::new(96.0, 96.0))));
+                        ui.add(egui::Image::new((
+                            texture.id(),
+                            egui::Vec2::new(96.0, 96.0),
+                        )));
                         ui.add_space(6.0);
                     }
                     ui.label(
@@ -615,7 +620,10 @@ mod tests {
     #[test]
     fn confirm_stays_open_without_input() {
         let ctx = open_confirm();
-        assert_eq!(confirm_frame(&ctx, vec![Event::PointerMoved(OUTSIDE)]), None);
+        assert_eq!(
+            confirm_frame(&ctx, vec![Event::PointerMoved(OUTSIDE)]),
+            None
+        );
     }
 
     #[test]
@@ -638,7 +646,10 @@ mod tests {
         let press_event = button_event(pos, PointerButton::Primary, true);
         let release_event = button_event(pos, PointerButton::Primary, false);
         let down = confirm_frame(&ctx, vec![press_event]);
-        assert_eq!(down.or(confirm_frame(&ctx, vec![release_event])), Some(false));
+        assert_eq!(
+            down.or(confirm_frame(&ctx, vec![release_event])),
+            Some(false)
+        );
     }
 
     #[test]

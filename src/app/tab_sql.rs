@@ -134,15 +134,19 @@ impl App {
                 }
             })
             .body(|body| {
-                body.rows(22.0, self.sql_rows.len(), |mut row: egui_extras::TableRow| {
-                    let row_data = &self.sql_rows[row.index()];
-                    for val in row_data {
-                        let v = val.clone();
-                        row.col(|ui: &mut egui::Ui| {
-                            ui.label(v.as_str());
-                        });
-                    }
-                });
+                body.rows(
+                    22.0,
+                    self.sql_rows.len(),
+                    |mut row: egui_extras::TableRow| {
+                        let row_data = &self.sql_rows[row.index()];
+                        for val in row_data {
+                            let v = val.clone();
+                            row.col(|ui: &mut egui::Ui| {
+                                ui.label(v.as_str());
+                            });
+                        }
+                    },
+                );
             });
     }
 }

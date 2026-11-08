@@ -31,7 +31,11 @@ pub enum AppTheme {
 
 impl Default for Settings {
     fn default() -> Self {
-        Self { language: Language::Pt, theme: AppTheme::Dark, rows_per_page: 1000 }
+        Self {
+            language: Language::Pt,
+            theme: AppTheme::Dark,
+            rows_per_page: 1000,
+        }
     }
 }
 
