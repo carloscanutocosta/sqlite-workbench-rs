@@ -1,4 +1,5 @@
 /.claude
 /target
 /dist
+/.TEST
 settings.json
