@@ -27,11 +27,10 @@ impl App {
             image::load_from_memory(bytes).ok().map(|img| {
                 let rgba = img.into_rgba8();
                 let (w, h) = rgba.dimensions();
-                let color_image = egui::ColorImage::from_rgba_unmultiplied(
-                    [w as usize, h as usize],
-                    &rgba,
-                );
-                cc.egui_ctx.load_texture("about_icon", color_image, egui::TextureOptions::LINEAR)
+                let color_image =
+                    egui::ColorImage::from_rgba_unmultiplied([w as usize, h as usize], &rgba);
+                cc.egui_ctx
+                    .load_texture("about_icon", color_image, egui::TextureOptions::LINEAR)
             })
         };
 
@@ -60,7 +59,11 @@ impl App {
             tables: vec![],
             table_search: String::new(),
             selected_table: None,
-            filter: FilterConfig { column: String::new(), operator: "LIKE".into(), value: String::new() },
+            filter: FilterConfig {
+                column: String::new(),
+                operator: "LIKE".into(),
+                value: String::new(),
+            },
             filter_col_options: vec![],
             current_page: 1,
             total_pages: 1,
@@ -88,8 +91,11 @@ impl App {
             edit_dialog: None,
             erd_window: None,
             input_dialog: None,
+            confirm_drop_table: None,
+            confirm_delete_record: None,
             tree_ctx_row: None,
             sidebar_ctx_table: None,
+            ctx_menu_just_opened: false,
             toast: None,
             show_about: false,
             about_icon,
@@ -158,7 +164,11 @@ impl App {
         self.current_page = 1;
         self.sort_col = None;
         self.sort_asc = true;
-        self.filter = FilterConfig { column: String::new(), operator: "LIKE".into(), value: String::new() };
+        self.filter = FilterConfig {
+            column: String::new(),
+            operator: "LIKE".into(),
+            value: String::new(),
+        };
 
         if let Some(db) = &self.db {
             self.schema_text = db.get_table_schema(&name);
@@ -177,7 +187,9 @@ impl App {
         let q = query.to_string();
         if self.history.front().map(|h| h != &q).unwrap_or(true) {
             self.history.push_front(q);
-            if self.history.len() > 20 { self.history.pop_back(); }
+            if self.history.len() > 20 {
+                self.history.pop_back();
+            }
             self.save_history();
         }
     }

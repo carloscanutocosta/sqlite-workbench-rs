@@ -43,7 +43,14 @@ impl App {
         let arc_clone = arc_data.clone();
         thread::spawn(move || {
             let result = DatabaseManager::open(&db_path).and_then(|db| {
-                db.get_table_data(&table, limit, offset, &filter, sort_col.as_deref(), sort_asc)
+                db.get_table_data(
+                    &table,
+                    limit,
+                    offset,
+                    &filter,
+                    sort_col.as_deref(),
+                    sort_asc,
+                )
             });
             *arc_clone.lock().unwrap() = Some(result);
         });
@@ -59,7 +66,10 @@ impl App {
             None => return,
         };
 
-        self.stats = StatsState { loading: true, ..Default::default() };
+        self.stats = StatsState {
+            loading: true,
+            ..Default::default()
+        };
         let arc: AsyncStatsResult = Arc::new(Mutex::new(None));
         let arc_clone = arc.clone();
 

@@ -93,7 +93,10 @@ impl App {
             ));
 
             if ui
-                .add_enabled(self.current_page < self.total_pages, egui::Button::new(t.next))
+                .add_enabled(
+                    self.current_page < self.total_pages,
+                    egui::Button::new(t.next),
+                )
                 .clicked()
             {
                 let p = self.current_page + 1;
@@ -136,7 +139,11 @@ impl App {
                     let col_str = col.to_string();
                     let sorted = sort_col_clone.as_deref() == Some(col.as_str());
                     let label = if sorted {
-                        if sort_asc { format!("{col_str} ▲") } else { format!("{col_str} ▼") }
+                        if sort_asc {
+                            format!("{col_str} ▲")
+                        } else {
+                            format!("{col_str} ▼")
+                        }
                     } else {
                         col_str.clone()
                     };
@@ -179,6 +186,8 @@ impl App {
 
         if let Some((rowid, vals, pos)) = ctx_row {
             self.tree_ctx_row = Some((rowid, vals, pos));
+            self.sidebar_ctx_table = None;
+            self.ctx_menu_just_opened = true;
         }
     }
 }

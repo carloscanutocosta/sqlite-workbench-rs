@@ -48,16 +48,28 @@ impl App {
 
         ui.horizontal(|ui| {
             let t = self.t();
-            if ui.selectable_label(self.active_tab == ActiveTab::Data, t.tab_data).clicked() {
+            if ui
+                .selectable_label(self.active_tab == ActiveTab::Data, t.tab_data)
+                .clicked()
+            {
                 self.active_tab = ActiveTab::Data;
             }
-            if ui.selectable_label(self.active_tab == ActiveTab::Schema, t.tab_schema).clicked() {
+            if ui
+                .selectable_label(self.active_tab == ActiveTab::Schema, t.tab_schema)
+                .clicked()
+            {
                 self.active_tab = ActiveTab::Schema;
             }
-            if ui.selectable_label(self.active_tab == ActiveTab::Stats, t.tab_stats).clicked() {
+            if ui
+                .selectable_label(self.active_tab == ActiveTab::Stats, t.tab_stats)
+                .clicked()
+            {
                 self.active_tab = ActiveTab::Stats;
             }
-            if ui.selectable_label(self.active_tab == ActiveTab::Sql, t.tab_sql).clicked() {
+            if ui
+                .selectable_label(self.active_tab == ActiveTab::Sql, t.tab_sql)
+                .clicked()
+            {
                 self.active_tab = ActiveTab::Sql;
             }
         });

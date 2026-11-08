@@ -235,7 +235,11 @@ impl EditRecordDialog {
     }
 
     /// Returns Some(pairs) when user clicks Save/Insert.
-    pub fn show(&mut self, ui: &mut Ui, t: &'static T) -> Option<Result<Vec<(String, String)>, ()>> {
+    pub fn show(
+        &mut self,
+        ui: &mut Ui,
+        t: &'static T,
+    ) -> Option<Result<Vec<(String, String)>, ()>> {
         let mut result = None;
 
         ScrollArea::vertical()
@@ -254,7 +258,11 @@ impl EditRecordDialog {
             if ui.button(t.cancel).clicked() {
                 result = Some(Err(()));
             }
-            let btn_label = if self.rowid.is_some() { t.save } else { t.insert };
+            let btn_label = if self.rowid.is_some() {
+                t.save
+            } else {
+                t.insert
+            };
             if ui.button(btn_label).clicked() {
                 let pairs: Vec<(String, String)> = self
                     .columns
@@ -370,6 +378,7 @@ impl ErdWindow {
                 box_rect,
                 4.0,
                 egui::Stroke::new(1.0, Color32::from_rgb(80, 80, 90)),
+                egui::StrokeKind::Middle,
             );
             painter.rect_filled(header_rect, 4.0, Color32::from_rgb(31, 83, 141));
 

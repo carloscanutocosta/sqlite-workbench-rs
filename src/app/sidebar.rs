@@ -84,6 +84,8 @@ impl App {
             }
             if let Some(t) = ctx_table {
                 self.sidebar_ctx_table = Some(t);
+                self.tree_ctx_row = None;
+                self.ctx_menu_just_opened = true;
             }
         });
     }
