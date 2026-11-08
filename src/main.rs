@@ -1,3 +1,6 @@
+// Release builds on Windows open no console window behind the app.
+#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+
 mod app;
 mod db;
 mod dialogs;
